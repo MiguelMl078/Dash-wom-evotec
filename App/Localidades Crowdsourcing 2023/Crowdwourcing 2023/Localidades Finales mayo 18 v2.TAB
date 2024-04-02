@@ -1,0 +1,20 @@
+!table
+!version 650
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 7
+    Depto Char (34) ;
+    Nombre_depto Char (34) ;
+    Municipio Char (34) ;
+    Nombre_municipio Char (34) ;
+    Localidad Char (10) Index 1 ;
+    Nombre_localidad Char (34) ;
+    Operador Char (10) Index 2 ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "5965457d-4624-4e61-87a0-ec2dad646a29"
+"\MapInfo\ParentTableID" = "ce67fafc-9996-415f-be8b-3cb7d0aa77b9"
+end_metadata

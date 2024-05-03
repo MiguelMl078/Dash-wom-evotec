@@ -50,6 +50,8 @@ def query(): # Función para hacer query desde la base de datos de Sergio
     query = """SELECT dwh_cell_name_wom, dwh_banda, dwh_sector, dwh_latitud, dwh_longitud, cluster_key, cluster_nombre, dwh_localidad, dwh_dane_cod_localidad, dane_nombre_mpio, dane_code, dane_code_dpto, dane_nombre_dpt, wom_regional 
             FROM bodega_analitica.roaming_cell_dim 
             WHERE dwh_operador_rat = 'WOM 4G' LIMIT 100000"""
+    # query = """SELECT cell_name, site_name, sector_id, band, vendor, latitude, longitude, region, department, city, locality, dane_code, address, cluster
+    #     FROM bodega_analitica.cell_dim LIMIT 100000"""
 
     # # Leer datos de la base de datos PostgreSQL
     # df_geo = pd.read_sql(query, conn)
@@ -57,6 +59,7 @@ def query(): # Función para hacer query desde la base de datos de Sergio
     cur.execute(query) # Ejecutar la consulta
     datos = cur.fetchall() # Almacenar todas las filas de la consulta en esta variable
     columnas = [desc[0] for desc in cur.description]  # Obtener los nombres de las columnas
+    cur.close()
     conn.close() # Cerrar conexión
 
     df_geo = pd.DataFrame(datos, columns=columnas) # Creo dataframe 
@@ -65,7 +68,7 @@ def query(): # Función para hacer query desde la base de datos de Sergio
 
 def filtrado(cells, df):
     cells = cells["dwh_cell_name_wom"] # Extraigo solo los nombre porque es lo único que necesito
-    data = df[df["Cell Name"].isin(cells)].copy() # Genero copia del df de datos unicamente de las celdas cuyo nombre está en el df extraido anteriormente
+    data = df[df["Cell_name"].str.upper().isin(cells)].copy() # Genero copia del df de datos unicamente de las celdas cuyo nombre está en el df extraido anteriormente
     return data
 
 def bh(data, column):
@@ -82,14 +85,14 @@ def bh(data, column):
 
 def graph_BH(bh_df_avg, bh_df_max):
     fig = go.Figure() # Crea una figura vacía
-    fig.add_trace(go.Bar(x=bh_df_avg["Date"], y=bh_df_avg["L.Traffic.User.Avg"], name="Avg", text=bh_df_avg["Time"]))
-    fig.add_trace(go.Bar(x=bh_df_max["Date"], y=bh_df_max["L.Traffic.User.Max"], name="Max", text=bh_df_max["Time"]))
+    fig.add_trace(go.Bar(x=bh_df_avg["Date"], y=bh_df_avg["L.Traffic.ActiveUser.DL.Avg"], name="Avg", text=bh_df_avg["Time"]))
+    fig.add_trace(go.Bar(x=bh_df_max["Date"], y=bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max", text=bh_df_max["Time"]))
 
     return fig
 
 def PRB_usg(data, bh_df):
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-    data = data[["Timestamp", "Cell Name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
+    data = data[["Timestamp", "Cell_name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
     # print("PRB OCCUP: ")
     # print(data)
     # print("Las sumatorias")
@@ -126,7 +129,7 @@ def traffic(data, bh_df):
     fig_trff.add_trace(go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode='lines', name='Traffic')) # Añado linea de tráfico al día
     # Calculo de tráfico en BH
     trff_bh = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-    trff_bh = trff_bh[["Timestamp", "Cell Name", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
+    trff_bh = trff_bh[["Timestamp", "Cell_name", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
     trff_bh["L.Thrp.bits.DL(bit)_BH"] = trff_bh["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversión de bit a GB
     # print("BH:")
     # print(trff_bh)
@@ -138,7 +141,7 @@ def traffic(data, bh_df):
 
 def user_exp(data, bh_df):
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy()
-    data = data[["Timestamp", "Cell Name", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]] # Solo columnas necesarias
+    data = data[["Timestamp", "Cell_name", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]] # Solo columnas necesarias
 
     # Agrupa los datos por Timestamp y suma los valores de columnas que hacen parte de la ecuación
     user_exp_df = data.groupby("Timestamp").agg({
@@ -151,6 +154,14 @@ def user_exp(data, bh_df):
     fig_uexp = px.line(user_exp_df, x="Timestamp", y="User_Exp", title="User Experience in BH")
     return fig_uexp
 
+def convert_timestamp(timestamp_str):
+    try:
+        # Intentar convertir el Timestamp a datetime directamente
+        return datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        # Si falla, asumir que la hora es 00:00:00 y agregar ese componente
+        return datetime.strptime(timestamp_str + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+
 
 #---------- Iniciar App ----------#
 # app = dash.Dash(__name__)
@@ -162,20 +173,22 @@ load_figure_template("pulse") # Función para que todos los gráficos tengan est
 # Ruta de la carpeta donde estan alojados los archivos de datos que serán reemplazados por las BD
 BD = "C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_Tests/Python/BD/"
 
-# Lectura de datos de tráfico
+#### Lectura de datos de tráfico
 # df = pd.read_csv(BD+"KPIs BH(KPI Analysis Result).csv"
 #                  , usecols=["Time", "eNodeB Name", "Cell Name", "L.Traffic.ActiveUser.Dl.Avg", "L.Traffic.ActiveUser.DL.Max"] # Filtrado de columnas estrictamente necesarias
 #                  , dtype={"Time":str, "eNodeB Name":str, "Cell Name":str, "L.Traffic.ActiveUser.Dl.Avg":str, "L.Traffic.ActiveUser.DL.Max":int} # Hacer explicito tipo de dato con el fin de optimizar
 #                  )
-df = pd.read_csv(BD+"Raw_Data.csv")
-# df = pd.read_csv("C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_Tests/Python/raw_lastweek.csv") # Prueba ultima semana
-df["Timestamp"] = df["Date"] + ' ' + df["Time"] # Creo nueva columna uniendo fecha y hora
-df["Timestamp"] = pd.to_datetime(df["Timestamp"]) # Convierto dicha columna a formato datetime para hacer filtrado temporal
+# df = pd.read_csv(BD+"Raw_Data.csv")
+df = pd.read_csv("C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_Tests/Python/15-28_abril.csv") # Prueba ultima semana
+# df["Timestamp"] = df["Date"] + ' ' + df["Time"] # Creo nueva columna uniendo fecha y hora
+# df["Timestamp"] = pd.to_datetime(df["Timestamp"]) # Convierto dicha columna a formato datetime para hacer filtrado temporal
+df['Timestamp'] = df['Timestamp'].apply(convert_timestamp)
 
-# Leer datos geográficos
+#### Leer datos geográficos
 # df_geo = pd.read_csv(BD+"Baseline_BD.csv")
 df_geo = query()
 # Corrijo la columna que contiene el nombre de las celdas para que cuadre con los nombres de los informes
+df_geo["dwh_cell_name_wom"] = df_geo["dwh_cell_name_wom"].str.upper() # Todo a mayusculas
 df_geo["node_name"] = df_geo["dwh_cell_name_wom"]
 # df_geo["dwh_cell_name_wom"] = df_geo["dwh_cell_name_wom"] + "_" + df_geo["dwh_banda"].apply(str) + "_" + df_geo["dwh_sector"].apply(str)
 # Concatenar las columnas, reemplazando "B4" con "AWS" cuando sea necesario
@@ -184,7 +197,23 @@ df_geo["dwh_cell_name_wom"] = np.where(df_geo["dwh_banda"] == "B4", # Cuando se 
                                         df_geo["dwh_cell_name_wom"] + "_" + df_geo["dwh_banda"].astype(str) + "_" + df_geo["dwh_sector"].astype(str)) # Else
 df_geo = df_geo.drop_duplicates(subset=["dwh_cell_name_wom"]) # Elimino los nombres exactamente iguales
 df_geo["sector"] = df_geo["dwh_sector"].apply(lambda x: 1 if x in [1,4,7] else (2 if x in [2,5,8] else (3 if x in [3,6,9] else 4))) # Creación de columna "sector" para logica de agregación por sectores. Se agrupa según el id de sector
-df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].apply(str)
+df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].astype(str)
+
+# df_geo["dane_code"] =  pd.to_numeric(df_geo["dane_code"], downcast="unsigned") # La columna se convierte a flotante
+# df_geo["address"] =  pd.to_numeric(df_geo["address"], downcast="unsigned") # La columna se convierte a flotante
+# df_geo["dane_code"] =  df_geo["dane_code"].astype('Int64') # La clase 'Int64' permite manejar valores nulos
+# df_geo["address"] =  df_geo["address"].astype('Int64') # La clase 'Int64' permite manejar valores nulos
+
+# df_geo = df_geo.dropna(subset="cell_name") # Elimino filas vacias
+# df_geo = df_geo.drop_duplicates(subset=["cell_name"]) # Elimino los nombres exactamente iguales
+# df_geo = df_geo.rename(columns={"site_name":"node_name"}) # Renombro columna
+# df_geo["cell_name"] = df_geo["cell_name"].str.upper() # Todo a mayusculas
+# df_geo["node_name"] = df_geo["node_name"].str.upper() # Todo a mayusculas
+# df_geo["sector"] = df_geo["sector_id"].apply(lambda x: 1 if x in [1,4,7] else (2 if x in [2,5,8] else (3 if x in [3,6,9] else 4))) # Creación de columna "sector" para logica de agregación por sectores. Se agrupa según el id de sector
+# df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].apply(str) # Creo un key name para cada sector
+# df_geo["dane_code_dpto"] = df_geo["dane_code"] / 1000 # Divido entre mil para mover el punto decimal 3 casillas a la izquierda
+# df_geo["dane_code_dpto"] = df_geo["dane_code_dpto"].astype('Int64') # Convierto a entero para no tener en cuenta lo que está despues del punto decimal
+
 
 # Lectura de archivo que contiene las localidades
 localidades = gpd.read_file("Localidades Crowdsourcing 2023/Crowdwourcing 2023/Localidades Finales mayo 18 v2.TAB")
@@ -277,10 +306,13 @@ app.layout = dbc.Container([
                 daq.Gauge(
                     id="gauge",
                     label="Capacidad",
-                    color={"gradient":True,"ranges":{"green":[0,6],"yellow":[6,8],"red":[8,10]}},
-                    value=6,
-                    size=100
-                    # style={"height": "100%", "width":"60%"}
+                    color={"gradient":True,"ranges":{"green":[0,50],"yellow":[50,80],"red":[80,100]}},
+                    min=0,
+                    max=100,
+                    value=0,
+                    showCurrentValue=True,
+                    # size=100,
+                    style={"height": "100%"}
                     )
             ], body=True, style={"height": "100%"})
         ], width=4, align="center", style={"height": "95%"})
@@ -300,7 +332,8 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             dbc.Card([
-                dcc.Graph(id="map", style={"height": "100%"})
+                dbc.Spinner(children=dcc.Graph(id="map", style={"height": "100%"}))
+                # dcc.Graph(id="map", style={"height": "100%"})
             ], style={"height": "100%"})
         ], width=6, style={"height": "100%"}),
         dbc.Col([
@@ -375,6 +408,7 @@ app.layout = dbc.Container([
     Input(component_id="aggregation", component_property='value'),
 )
 def update_map(input):
+    px.set_mapbox_access_token("pk.eyJ1IjoicmFjdWVydm8iLCJhIjoiY2x2ZDBmcGF6MG92ejJpbTlyN3Q4d2tndyJ9.PFbAy_UzSktBPGnS23pU9A") # Mi public acces token de Mapbox
     if input is None:
         raise PreventUpdate
     # Definir las configuraciones de zoom y centro del mapa una vez
@@ -404,11 +438,11 @@ def update_map(input):
                                 hover_name="node_name",
                                 custom_data="node_name"
                             )
-        # Habilita la clusterización de puntos agregando una nueva capa de datos de tipo 'scattermapbox'
-        fig.add_scattermapbox(lat=aux_df['dwh_latitud'], lon=aux_df['dwh_longitud'], mode='markers', marker={'size': 10})
+        # # Habilita la clusterización de puntos agregando una nueva capa de datos de tipo 'scattermapbox'
+        # fig.add_scattermapbox(lat=aux_df['dwh_latitud'], lon=aux_df['dwh_longitud'], mode='markers', marker={'size': 10})
 
-        # Actualiza las propiedades de la figura para habilitar la clusterización
-        fig.update_traces(marker=dict(size=10), selector=dict(type='scattermapbox'))
+        # # Actualiza las propiedades de la figura para habilitar la clusterización
+        # fig.update_traces(marker=dict(size=10), selector=dict(type='scattermapbox'))
 
     elif input == "cluster":
         fig = px.choropleth_mapbox(clusters, geojson=clusters.geometry, locations=clusters.index,
@@ -501,8 +535,8 @@ def update_dropdown(input):
         options = [{'label': i, 'value': i} for i in options_df]
     
     elif input == "localidad":
-        options_df = df_geo[["dwh_localidad", "dwh_dane_cod_localidad", "dane_nombre_mpio"]].copy() # Copia solo columnas requeridas
-        options_df = options_df.dropna().drop_duplicates(subset=["dwh_dane_cod_localidad"]) # Elimino filas que contenga algun valor nulo
+        options_df = df_geo[["dwh_localidad", "dwh_dane_cod_localidad", "dane_nombre_mpio"]].drop_duplicates(subset=["dwh_dane_cod_localidad"]).copy() # Copia solo columnas requeridas
+        options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
         options_df["CoLoc"] = options_df["dane_nombre_mpio"] + ": " + options_df["dwh_localidad"] + " " + options_df["dwh_dane_cod_localidad"].astype(str) # Nueva columna con nombre único de localidad
         options_df = options_df.sort_values(by=["CoLoc"]) # Organizo por nombre único
         options = [{'label': row["CoLoc"], 'value': row["dwh_dane_cod_localidad"]} for index, row in options_df.iterrows()]
@@ -510,14 +544,16 @@ def update_dropdown(input):
     elif input == "municipio":
         # Tomo código DANE porque a partir del código es que funciona la lógica de los municipios
         options_df = df_geo[["dane_code","dane_nombre_mpio"]].drop_duplicates(subset=["dane_code"]).copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
+        options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
         options_df["CoMpo"] = options_df["dane_nombre_mpio"] + " " + options_df["dane_code"].apply(str) # Sumo nombre de municipio con código para poder generar las opciones
-        options_df = options_df.dropna(subset=["CoMpo"]).sort_values(by=["CoMpo"]) # Elimino las filas cuya valor en la columna "CoCity" sea vacio
+        options_df = options_df.sort_values(by=["CoMpo"]) # Organizo por nombre único
         options = [{'label': row["CoMpo"], 'value': row["dane_code"]} for index, row in options_df.iterrows()]
 
     elif input == "departamento":
         options_df = df_geo[["dane_code_dpto","dane_nombre_dpt"]].drop_duplicates(subset=["dane_code_dpto"]).copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
+        options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
         options_df["CoDpto"] = options_df["dane_nombre_dpt"] + " " + options_df["dane_code_dpto"].apply(str) # Sumo nombre de municipio con código para poder generar las opciones
-        options_df = options_df.dropna(subset=["CoDpto"]).sort_values(by=["CoDpto"]) # Elimino las filas cuya valor en la columna "CoCity" sea vacio
+        options_df = options_df.sort_values(by=["CoDpto"]) # Organizo
         options = [{'label': row["CoDpto"], 'value': row["dane_code_dpto"]} for index, row in options_df.iterrows()]
 
     elif input == "regional":
@@ -526,7 +562,7 @@ def update_dropdown(input):
         options = [{'label': i, 'value': i} for i in options_df]
 
     elif input == "total":
-        options = {"label": "Total de la red", "value": "Total de la red"}
+        options = {'label': 'Total de la red', 'value': "Total de la red"}
     
     return options
 
@@ -545,7 +581,7 @@ def make_selection(input):
     selected = input['points'][0]["customdata"][0] # Accedo a la información que mandé en el mapa
 
     if selected.isdigit(): # Si el valor es completamente compuesto de dígitos
-        return to_int(selected)
+        return to_int(selected) # Retorno como entero
     else:
         return selected
 
@@ -573,54 +609,46 @@ def make_zoom(input, agg):
     if agg == "celda":
         auxdf = df_geo[["dwh_cell_name_wom","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dwh_cell_name_wom"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "sector":
         auxdf = df_geo[["sector_name","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["sector_name"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "EB":
         auxdf = df_geo[["node_name","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["node_name"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
-        lat_mean = auxdf["dwh_latitud"].astype(float).mean()
+        lat_mean = auxdf["dwh_latitud"].astype(float).mean() # Promedio de coordenadas de todas las celdas que componen el grupo
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "cluster":
         zoom = 13
         auxdf = df_geo[["cluster_key","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["cluster_key"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "localidad":
         zoom = 12
         auxdf = df_geo[["dwh_dane_cod_localidad","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dwh_dane_cod_localidad"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "municipio":
         zoom = 10
         auxdf = df_geo[["dane_code","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dane_code"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "departamento":
         zoom = 8
         auxdf = df_geo[["dane_code_dpto","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dane_code_dpto"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "regional":
         zoom = 6
         auxdf = df_geo[["wom_regional","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["wom_regional"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-        print(auxdf)
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "total":
@@ -638,14 +666,15 @@ def make_zoom(input, agg):
 
 # Callback para gráficar la selección del usuario a partir de la agregación
 @callback(
-    Output(component_id='test', component_property='children'),
-    Output(component_id='traffic', component_property='figure'),
-    Output(component_id='user_exp', component_property='figure'),
-    Output(component_id='bh', component_property='figure'),
-    Output(component_id='PRB', component_property='figure'),
-    Output(component_id='graph_test', component_property='figure'),
-    Input(component_id="aggregation", component_property='value'),
-    Input(component_id='select', component_property='value')
+        Output(component_id='test', component_property='children'),
+        Output(component_id="gauge", component_property="value"),
+        Output(component_id='traffic', component_property='figure'),
+        Output(component_id='user_exp', component_property='figure'),
+        Output(component_id='bh', component_property='figure'),
+        Output(component_id='PRB', component_property='figure'),
+        Output(component_id='graph_test', component_property='figure'),
+        State(component_id="aggregation", component_property='value'),
+        Input(component_id='select', component_property='value')
 )
 def update_graphs(agg, input):
     if input is None:
@@ -659,25 +688,28 @@ def update_graphs(agg, input):
     container = "Su selección es: {}".format(selected_cell)
 
     if(agg == "celda"): # Si se eligió una agregación de celda
-        data = df[df["Cell Name"] == selected_cell].copy() # Copia del df unicamente con las filas cuyo valor en la columna "Cell Name" concuerde con la celda que definí
+        data = df[df["Cell_name"].str.upper() == selected_cell].copy() # Copia del df unicamente con las filas cuyo valor en la columna "Cell_name" concuerde con la celda que definí
         # Gráficar tráfico máximo y promedio
-        # fig_uexp = px.line(data, x="Timestamp", y="L.Traffic.User.Max", title="Max Traffic by active users by cell")
-        # fig_test = px.line(data, x="Timestamp", y="L.Traffic.User.Avg", title="Avg Traffic by active users by cell")
+        # fig_uexp = px.line(data, x="Timestamp", y="L.Traffic.ActiveUser.DL.Max", title="Max Traffic by active users by cell")
+        # fig_test = px.line(data, x="Timestamp", y="L.Traffic.ActiveUser.DL.Avg", title="Avg Traffic by active users by cell")
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
-        # fig_bh = px.bar(bh_df, x="Date", y="L.Traffic.User.Avg", title="BH by day", text="Time") # Graficar la hora pico por día y su valor correspondiente
+        # fig_bh = px.bar(bh_df, x="Date", y="L.Traffic.ActiveUser.DL.Avg", title="BH by day", text="Time") # Graficar la hora pico por día y su valor correspondiente
 
         # Calculo ocupación PRBs
         prb_df = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-        prb_df = prb_df[["Timestamp", "Cell Name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
+        prb_df = prb_df[["Timestamp", "Cell_name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
         # print("PRB OCCUP: ")
         # print(prb_df)
         prb_df["DL_PRB_usage"] = (prb_df["L.ChMeas.PRB.DL.Used.Avg"] / prb_df["L.ChMeas.PRB.DL.Avail"]) * 100
         prb_df["UL_PRB_usage"] = (prb_df["L.ChMeas.PRB.UL.Used.Avg"] / prb_df["L.ChMeas.PRB.UL.Avail"]) * 100
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -686,8 +718,8 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")["L.Traffic.User.Avg"].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x="Timestamp", y="L.Traffic.User.Avg", title='Average users')
+        datos_avg = data.groupby("Timestamp")["L.Traffic.ActiveUser.DL.Avg"].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x="Timestamp", y="L.Traffic.ActiveUser.DL.Avg", title='Average users')
 
     
     elif(agg == "sector"):
@@ -695,19 +727,22 @@ def update_graphs(agg, input):
         data = filtrado(cells, df)
 
         # Gráficar tráfico máximo y promedio
-        # datos_max = data.groupby("Timestamp")['L.Traffic.User.Max'].sum().reset_index() # df con max data sumada
-        # fig_uexp = px.line(datos_max, x='Timestamp', y='L.Traffic.User.Max', title='Max Traffic by active users by cell')
-        # datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        # fig_trff = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Avg Traffic by active users by cluster')
+        # datos_max = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Max'].sum().reset_index() # df con max data sumada
+        # fig_uexp = px.line(datos_max, x='Timestamp', y='L.Traffic.ActiveUser.DL.Max', title='Max Traffic by active users by cell')
+        # datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        # fig_trff = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Avg Traffic by active users by cluster')
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
+        # print("PRB usage:\n", prb_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -716,8 +751,8 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
 
     elif(agg == "EB"): # Si se eligio agregación de Estacion Base
@@ -725,13 +760,15 @@ def update_graphs(agg, input):
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -740,21 +777,23 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
     elif(agg == "cluster"): # Si se eligió una agregación de cluster
         cells = df_geo[df_geo["cluster_key"] == selected_cell].copy() # Genero dataframe solo con las celdas dentro del cluster
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -763,21 +802,23 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
     elif(agg == "localidad"):
         cells = df_geo[df_geo["dwh_dane_cod_localidad"] == to_int(selected_cell)].copy() # Genero dataframe solo con las celdas dentro de la localidad
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -786,21 +827,23 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
     elif(agg == "municipio"): # Si se eligió una agregación de municipio
         cells = df_geo[df_geo["dane_code"] == to_int(selected_cell)].copy() # Genero dataframe solo con las celdas dentro del municipio
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -809,8 +852,8 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
 
     elif(agg == "departamento"): # Si se eligió una agregación de municipio
@@ -818,13 +861,15 @@ def update_graphs(agg, input):
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -833,21 +878,23 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
     elif(agg == "regional"):
         cells = df_geo[df_geo["wom_regional"].str.lower() == unidecode(selected_cell.lower())].copy() # Genero dataframe solo con las celdas dentro del departamento
         data = filtrado(cells, df)
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -856,22 +903,24 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
 
     elif(agg == "total"):
         data = df.copy()
-        # data["L.Traffic.User.Avg"] = data["L.Traffic.User.Avg"].apply(to_float) # Casting de string a float para esta columna
+        # data["L.Traffic.ActiveUser.DL.Avg"] = data["L.Traffic.ActiveUser.DL.Avg"].apply(to_float) # Casting de string a float para esta columna
 
         # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.User.Avg")
-        bh_df_max = bh(data, "L.Traffic.User.Max")
+        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
         fig_bh = graph_BH(bh_df, bh_df_max)
 
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
+        print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         fig_trff = traffic(data, bh_df)
@@ -880,8 +929,9 @@ def update_graphs(agg, input):
         fig_uexp = user_exp(data, bh_df)
 
         # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.User.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.User.Avg', title='Average users')
+        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
+        # fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
+        fig_test = fig_bh
 
     fig_trff.update_layout( {
         "margin": {"l": 0, "r": 10, "b": 0, "t": 40}, 
@@ -920,7 +970,7 @@ def update_graphs(agg, input):
                             #   , yanchor="bottom", y=1.02, xanchor="right", x=1
                               ))
 
-    return container, fig_trff, fig_uexp, fig_bh, fig_prb, fig_test
+    return container, gauge_value, fig_trff, fig_uexp, fig_bh, fig_prb, fig_test
 
 if __name__ == '__main__':
     app.run(debug=True)

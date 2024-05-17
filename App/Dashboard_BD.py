@@ -14,7 +14,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import psycopg2 # Para consulta a base de datos PostgreSQL
 from unidecode import unidecode # Libreria para eliminar acentos y poder hace condicionales tranquilo
-from datetime import datetime
+from datetime import datetime, timedelta, date
 import datetime as dt
 import numpy as np
 import json
@@ -34,7 +34,7 @@ def to_int(n):
         print (ValueError)
         return 0
     
-def query(): # Función para hacer query desde la base de datos de Sergio
+def query_geodata(): # Función para hacer query desde la base de datos de Sergio
     # Conectar a la base de datos PostgreSQL
     conn = psycopg2.connect(
         host="10.40.111.106",
@@ -71,45 +71,50 @@ def filtrado(cells, df):
     data = df[df["Cell_name"].str.upper().isin(cells)].copy() # Genero copia del df de datos unicamente de las celdas cuyo nombre está en el df extraido anteriormente
     return data
 
-def bh(data, column):
-     # Calculo BH(hora pico) por día
-    datos_avg = data.groupby("Timestamp")[column].sum().reset_index() # df con average data sumada por hora
+def bh(data, column): # Calculo BH(hora pico) por día
+    # datos_avg = data.groupby("Timestamp")[column].sum().reset_index() # df con average data sumada por hora
     # print("datos_avg:\n", datos_avg)
-    bh_day = datos_avg.groupby(datos_avg['Timestamp'].dt.date)[column].idxmax() # Agrupo los datos por fecha y luego encuentro los indices que contienen los valores de tráfico maximos (BH)
-    bh_df = datos_avg.loc[bh_day, ['Timestamp', column]] # Creo un nuevo df con las horas pico por día y unicamente con las columnas de tiempo y tráfico
+    data = data.copy()
+    bh_day = data.groupby(data['Timestamp'].dt.date)[column].idxmax() # Agrupo los datos por fecha y luego encuentro los indices que contienen los valores de tráfico maximos (BH)
+    bh_df = data.loc[bh_day, ['Timestamp', column]] # Creo un nuevo df con las horas pico por día y unicamente con las columnas de tiempo y tráfico
     # print("bh_df:\n", bh_df)
-    bh_df['Date'] = bh_df['Timestamp'].dt.date # Vuelvo a crear columna Date y Time que se habían perdido con el fin de gráficar respecto a la fecha y mostrar la hora
-    bh_df['Time'] = bh_df['Timestamp'].dt.strftime('%H:%M') # Formato para que solo sea Hora y Minuto
 
     return bh_df
 
 def graph_BH(bh_df_avg, bh_df_max):
     fig = go.Figure() # Crea una figura vacía
+    bh_df_avg = bh_df_avg.reset_index(drop=True)
+    bh_df_avg['Date'] = bh_df_avg['Timestamp'].dt.date # Vuelvo a crear columna Date y Time que se habían perdido con el fin de gráficar respecto a la fecha y mostrar la hora
+    bh_df_avg['Time'] = bh_df_avg['Timestamp'].dt.strftime('%H:%M') # Formato para que solo sea Hora y Minuto
     fig.add_trace(go.Bar(x=bh_df_avg["Date"], y=bh_df_avg["L.Traffic.ActiveUser.DL.Avg"], name="Avg", text=bh_df_avg["Time"]))
-    fig.add_trace(go.Bar(x=bh_df_max["Date"], y=bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max", text=bh_df_max["Time"]))
 
+    bh_df_max = bh_df_max.reset_index(drop=True)
+    bh_df_max['Date'] = bh_df_max['Timestamp'].dt.date # Vuelvo a crear columna Date y Time que se habían perdido con el fin de gráficar respecto a la fecha y mostrar la hora
+    bh_df_max['Time'] = bh_df_max['Timestamp'].dt.strftime('%H:%M') # Formato para que solo sea Hora y Minuto
+    fig.add_trace(go.Bar(x=bh_df_max["Date"], y=bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max", text=bh_df_max["Time"]))
     return fig
 
 def PRB_usg(data, bh_df):
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-    data = data[["Timestamp", "Cell_name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
-    # print("PRB OCCUP: ")
-    # print(data)
+    prb_df = data[["Timestamp", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
+    # print("PRB OCCUP raw:\n",prb_df)
     # print("Las sumatorias")
     # print(data.groupby("Timestamp")["L.ChMeas.PRB.DL.Used.Avg"].sum().reset_index())
     # print(data.groupby("Timestamp")["L.ChMeas.PRB.DL.Avail"].sum().reset_index())
 
     # Agrupa los datos por Timestamp y suma los valores de PRBs utilizados y disponibles en Downlink y Uplink
-    prb_df = data.groupby("Timestamp").agg({
-        "L.ChMeas.PRB.DL.Used.Avg": "sum",  # Suma de PRBs utilizados en Downlink
-        "L.ChMeas.PRB.DL.Avail": "sum",     # Suma de PRBs disponibles en Downlink
-        "L.ChMeas.PRB.UL.Used.Avg": "sum",  # Suma de PRBs utilizados en Uplink
-        "L.ChMeas.PRB.UL.Avail": "sum"      # Suma de PRBs disponibles en Uplink
-    }).reset_index()
-    # print(prb_df)
+    # prb_df = data.groupby("Timestamp").agg({
+    #     "L.ChMeas.PRB.DL.Used.Avg": "sum",  # Suma de PRBs utilizados en Downlink
+    #     "L.ChMeas.PRB.DL.Avail": "sum",     # Suma de PRBs disponibles en Downlink
+    #     "L.ChMeas.PRB.UL.Used.Avg": "sum",  # Suma de PRBs utilizados en Uplink
+    #     "L.ChMeas.PRB.UL.Avail": "sum"      # Suma de PRBs disponibles en Uplink
+    # }).reset_index()
+    prb_df = prb_df.reset_index(drop=True)
+    # print("PRB USG before:\n", prb_df)
+
     prb_df["DL_PRB_usage"] = (prb_df["L.ChMeas.PRB.DL.Used.Avg"] / prb_df["L.ChMeas.PRB.DL.Avail"]) * 100 # Cálculo de % ocupación en downlink y guardado en nueva columna
     prb_df["UL_PRB_usage"] = (prb_df["L.ChMeas.PRB.UL.Used.Avg"] / prb_df["L.ChMeas.PRB.UL.Avail"]) * 100 # # Cálculo de % ocupación en uplink y guardado en nueva columna
-    # print(prb_df)
+    # print("PRB USG apres:\n", prb_df)
 
     return prb_df
 
@@ -117,43 +122,58 @@ def bit_to_GB(bit):
     gbyte = bit / (8*10**9)
     return gbyte
 
+def graph_prb(prb_df):
+    fig_prb = go.Figure() # Crea una figura vacía
+    fig_prb.add_trace(go.Scatter(x=prb_df["Timestamp"], y=prb_df["DL_PRB_usage"], mode='lines', name='Downlink'))
+    fig_prb.add_trace(go.Scatter(x=prb_df["Timestamp"], y=prb_df["UL_PRB_usage"], mode='lines', name='Uplink'))
+    return fig_prb
+
 def traffic(data, bh_df):
-    fig_trff = go.Figure() # Crea una figura vacía
-    trff_df = data.groupby("Timestamp")["L.Thrp.bits.DL(bit)"].sum().reset_index() # Suma del tráfico de todas las celdas por hora
+    # fig_trff = go.Figure() # Crea una figura vacía
+    trff_df = data.copy()
     # print("SUM:")
     # print(trff_df)
     trff_df = trff_df.groupby(trff_df["Timestamp"].dt.date)["L.Thrp.bits.DL(bit)"].mean().reset_index() # Promedio del tráfico de cada hora del día
     trff_df["L.Thrp.bits.DL(bit)"] = trff_df["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversion de bit a GB
     # print("AVG:")
     # print(trff_df)
-    fig_trff.add_trace(go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode='lines', name='Traffic')) # Añado linea de tráfico al día
+    # fig_trff.add_trace(go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode='lines', name='Traffic')) # Añado linea de tráfico al día
     # Calculo de tráfico en BH
     trff_bh = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-    trff_bh = trff_bh[["Timestamp", "Cell_name", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
+    trff_bh = trff_bh[["Timestamp", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
     trff_bh["L.Thrp.bits.DL(bit)_BH"] = trff_bh["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversión de bit a GB
     # print("BH:")
     # print(trff_bh)
     trff_bh = trff_bh.groupby("Timestamp")["L.Thrp.bits.DL(bit)_BH"].sum().reset_index() # df con max data sumada
     # print("POST:")
     # print(trff_bh)
+    # fig_trff.add_trace(go.Scatter(x=trff_bh["Timestamp"], y=trff_bh["L.Thrp.bits.DL(bit)_BH"], mode='lines', name='Traffic_BH')) # Agrega la segunda línea a la misma figura
+    return trff_df, trff_bh
+
+def graph_trff(trff_df, trff_bh):
+    fig_trff = go.Figure() # Crea una figura vacía
+    fig_trff.add_trace(go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode='lines', name='Traffic')) # Añado linea de tráfico al día
     fig_trff.add_trace(go.Scatter(x=trff_bh["Timestamp"], y=trff_bh["L.Thrp.bits.DL(bit)_BH"], mode='lines', name='Traffic_BH')) # Agrega la segunda línea a la misma figura
     return fig_trff
 
 def user_exp(data, bh_df):
+    # fig_uexp = go.Figure() # Crea una figura vacía
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy()
-    data = data[["Timestamp", "Cell_name", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]] # Solo columnas necesarias
+    user_exp_df = data[["Timestamp","L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]] # Solo columnas necesarias
 
     # Agrupa los datos por Timestamp y suma los valores de columnas que hacen parte de la ecuación
-    user_exp_df = data.groupby("Timestamp").agg({
-        "L.Thrp.bits.DL(bit)": "sum",  # Suma throughput en DL
-        "L.Thrp.bits.DL.LastTTI(bit)": "sum",     # Suma de variable para el cálculo
-        "L.Thrp.Time.DL.RmvLastTTI(ms)": "sum",  # Suma de variable para el cálculo
-    }).reset_index()
+    # user_exp_df = data.groupby("Timestamp").agg({
+    #     "L.Thrp.bits.DL(bit)": "sum",  # Suma throughput en DL
+    #     "L.Thrp.bits.DL.LastTTI(bit)": "sum",     # Suma de variable para el cálculo
+    #     "L.Thrp.Time.DL.RmvLastTTI(ms)": "sum",  # Suma de variable para el cálculo
+    # }).reset_index()
     # print(prb_df)
+    user_exp_df = user_exp_df.reset_index(drop=True)
     user_exp_df["User_Exp"] = ((user_exp_df["L.Thrp.bits.DL(bit)"]-user_exp_df["L.Thrp.bits.DL.LastTTI(bit)"]) / (user_exp_df["L.Thrp.Time.DL.RmvLastTTI(ms)"])) / 1024 # Calculo user experience
-    fig_uexp = px.line(user_exp_df, x="Timestamp", y="User_Exp", title="User Experience in BH")
-    return fig_uexp
-
+    
+    # fig_uexp = px.line(user_exp_df, x="Timestamp", y="User_Exp", title="User Experience in BH")
+    return user_exp_df
+    
 def convert_timestamp(timestamp_str):
     try:
         # Intentar convertir el Timestamp a datetime directamente
@@ -161,6 +181,98 @@ def convert_timestamp(timestamp_str):
     except ValueError:
         # Si falla, asumir que la hora es 00:00:00 y agregar ese componente
         return datetime.strptime(timestamp_str + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+    
+def query_to_df(seleccion, geo_agregacion, start_date, end_date):
+    # Conectarse a la base de datos
+    conn = psycopg2.connect(
+            host="10.40.111.100",
+            database="analytics_dev",
+            user="reobertocuervo",
+            password="w0m_2024*",
+            port="5432"
+        )
+    # Realizar consulta a la base de datos PostgreSQL dentro del rango de fechas seleccionado
+    cur = conn.cursor()
+
+    if geo_agregacion == "celda":
+        cur.execute("""SELECT "Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_cell" 
+                WHERE UPPER("Cell_name") = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    
+    elif geo_agregacion == "sector":
+        cur.execute("""SELECT "Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_sector" 
+                WHERE UPPER("sector_name") = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    
+    elif geo_agregacion == "EB":
+        cur.execute("""SELECT "Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_node" 
+                WHERE UPPER("node_name") = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    
+    elif geo_agregacion == "cluster":
+        cur.execute("""SELECT "Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_cluster" 
+                WHERE "cluster_name" = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    
+    elif geo_agregacion == "localidad":
+        cur.execute("""SELECT "Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_localidad" 
+                WHERE "localidad_dane_code" = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    
+    elif geo_agregacion == "municipio":
+        cur.execute("""SELECT "Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_municipio" 
+                WHERE "municipio_dane_code" = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+    elif geo_agregacion == "departamento":
+        cur.execute("""SELECT "Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_departamento" 
+                WHERE "dpto_dane_code" = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+    elif geo_agregacion == "regional":
+        cur.execute("""SELECT "Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_regional" 
+                WHERE "regional_name" = %s
+                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+        columnas = ["Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+    elif geo_agregacion == "total":
+        cur.execute("""SELECT "Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                FROM "ran_1h_total" 
+                WHERE DATE("Timestamp") BETWEEN %s AND %s""", (start_date, end_date))
+        columnas = ["Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+    rows = cur.fetchall()
+    df = pd.DataFrame(rows, columns=columnas)
+    cur.close()
+    conn.close()
+    df = df.sort_values(by="Timestamp")
+    # print("df from query:\n",df)
+    # Verificar el tipo de datos de la segunda columna
+    # if df.iloc[:, 1].dtype == 'object':  # Verificar si es un objeto (que generalmente significa que es texto)
+    #     df.iloc[:, 1] = df.iloc[:, 1].str.upper() # Convertir los valores de la segunda columna a mayúsculas
+    # else:
+    #     pass
+    
+    # print("df postfunction:\n", df)
+    return df
+    
+
+
 
 
 #---------- Iniciar App ----------#
@@ -179,14 +291,13 @@ BD = "C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_T
 #                  , dtype={"Time":str, "eNodeB Name":str, "Cell Name":str, "L.Traffic.ActiveUser.Dl.Avg":str, "L.Traffic.ActiveUser.DL.Max":int} # Hacer explicito tipo de dato con el fin de optimizar
 #                  )
 # df = pd.read_csv(BD+"Raw_Data.csv")
-df = pd.read_csv("C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_Tests/Python/15-28_abril.csv") # Prueba ultima semana
-# df["Timestamp"] = df["Date"] + ' ' + df["Time"] # Creo nueva columna uniendo fecha y hora
-# df["Timestamp"] = pd.to_datetime(df["Timestamp"]) # Convierto dicha columna a formato datetime para hacer filtrado temporal
-df['Timestamp'] = df['Timestamp'].apply(convert_timestamp)
+# df = pd.read_csv("C:/Users/roberto.cuervo.WOMCOL/OneDrive - WOM Colombia/Documentos/Progra_Tests/Python/15-28_abril.csv") # Prueba ultima semana
+# df['Timestamp'] = df['Timestamp'].apply(convert_timestamp)
 
 #### Leer datos geográficos
 # df_geo = pd.read_csv(BD+"Baseline_BD.csv")
-df_geo = query()
+df_geo = query_geodata()
+df_geo = df_geo.dropna(subset="dwh_cell_name_wom")
 # Corrijo la columna que contiene el nombre de las celdas para que cuadre con los nombres de los informes
 df_geo["dwh_cell_name_wom"] = df_geo["dwh_cell_name_wom"].str.upper() # Todo a mayusculas
 df_geo["node_name"] = df_geo["dwh_cell_name_wom"]
@@ -198,22 +309,6 @@ df_geo["dwh_cell_name_wom"] = np.where(df_geo["dwh_banda"] == "B4", # Cuando se 
 df_geo = df_geo.drop_duplicates(subset=["dwh_cell_name_wom"]) # Elimino los nombres exactamente iguales
 df_geo["sector"] = df_geo["dwh_sector"].apply(lambda x: 1 if x in [1,4,7] else (2 if x in [2,5,8] else (3 if x in [3,6,9] else 4))) # Creación de columna "sector" para logica de agregación por sectores. Se agrupa según el id de sector
 df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].astype(str)
-
-# df_geo["dane_code"] =  pd.to_numeric(df_geo["dane_code"], downcast="unsigned") # La columna se convierte a flotante
-# df_geo["address"] =  pd.to_numeric(df_geo["address"], downcast="unsigned") # La columna se convierte a flotante
-# df_geo["dane_code"] =  df_geo["dane_code"].astype('Int64') # La clase 'Int64' permite manejar valores nulos
-# df_geo["address"] =  df_geo["address"].astype('Int64') # La clase 'Int64' permite manejar valores nulos
-
-# df_geo = df_geo.dropna(subset="cell_name") # Elimino filas vacias
-# df_geo = df_geo.drop_duplicates(subset=["cell_name"]) # Elimino los nombres exactamente iguales
-# df_geo = df_geo.rename(columns={"site_name":"node_name"}) # Renombro columna
-# df_geo["cell_name"] = df_geo["cell_name"].str.upper() # Todo a mayusculas
-# df_geo["node_name"] = df_geo["node_name"].str.upper() # Todo a mayusculas
-# df_geo["sector"] = df_geo["sector_id"].apply(lambda x: 1 if x in [1,4,7] else (2 if x in [2,5,8] else (3 if x in [3,6,9] else 4))) # Creación de columna "sector" para logica de agregación por sectores. Se agrupa según el id de sector
-# df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].apply(str) # Creo un key name para cada sector
-# df_geo["dane_code_dpto"] = df_geo["dane_code"] / 1000 # Divido entre mil para mover el punto decimal 3 casillas a la izquierda
-# df_geo["dane_code_dpto"] = df_geo["dane_code_dpto"].astype('Int64') # Convierto a entero para no tener en cuenta lo que está despues del punto decimal
-
 
 # Lectura de archivo que contiene las localidades
 localidades = gpd.read_file("Localidades Crowdsourcing 2023/Crowdwourcing 2023/Localidades Finales mayo 18 v2.TAB")
@@ -264,7 +359,7 @@ app.layout = dbc.Container([
                                         {"label": "Departamento", "value": "departamento"},
                                         {"label": "Regional", "value": "regional"},
                                         {"label": "Total", "value": "total"}],
-                                    value="celda",
+                                    value="total",
                                     clearable=False,
                                     )
                     ], width=6),
@@ -272,17 +367,19 @@ app.layout = dbc.Container([
                         dbc.Label("Selección"),
                         dcc.Dropdown(
                             id="select",
-                            placeholder="Selecciona un punto o polígono"
+                            placeholder="Selecciona un punto o polígono",
+                            value="Total de la red"
                                     ),
                     ], width=6)
-                ], style={"height": "50%"}),
+                ], style={"height": "45%"}),
                 dbc.Row([
                     dbc.Col([
                         dbc.Label("Tiempo"),
                         dcc.DatePickerRange(id="time",
-                                            display_format='YYYY-M-D',
+                                            display_format='YYYY-MM-DD',
                                             start_date_placeholder_text="Seleccione",
-                                            end_date=datetime.now().date(),
+                                            end_date=datetime.today(),
+                                            start_date=datetime.today() - timedelta(days=30)
                                             # min_date_allowed=date(2021, 1, 1),
                                 )
                     ], width=6),
@@ -290,17 +387,24 @@ app.layout = dbc.Container([
                         dbc.Label("Granularidad"),
                         dcc.Dropdown(id="time_agg",
                                     options=[
-                                        {"label": "Hora", "value": "celda"},
-                                        {"label": "Día", "value": "sector"},
-                                        {"label": "Semana", "value": "EB"},
-                                        {"label": "Mes", "value": "cluster"}],
-                                    value="celda"
+                                        {"label": "Hora", "value": "hora"},
+                                        {"label": "Día", "value": "dia"},
+                                        {"label": "Semana", "value": "semana"},
+                                        {"label": "Mes", "value": "mes"}],
+                                    value="dia",
+                                    clearable=False,
                                 )
                     ], width=6)
-                ], style={"height": "50%"}, align="center")
+                ], style={"height": "45%"}, align="center"),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Button(children="Buscar", id="solicitar", n_clicks=0)
+                    ], width=2), # Tamaño 12 para que ocupe toda la fila
+                ], style={"height": "10%"}, align="center", justify="end") # justify=end para que quede al final de la columna
                 
             ], body=True, style={"height": "100%"})
         ], width=8, align="center", style={"height": "95%"}),
+        
         dbc.Col([
             dbc.Card([
                 daq.Gauge(
@@ -316,15 +420,19 @@ app.layout = dbc.Container([
                     )
             ], body=True, style={"height": "100%"})
         ], width=4, align="center", style={"height": "95%"})
-    ], style={"height": "30%"}),
+    ], style={"height": "50%"}),
 
     dbc.Row([
         dbc.Col([
             dbc.Card([
-                html.Div(id="test",
-                        children="Hola, haz una selección",
-                        style={"height": "100%"}
-                        )
+                dcc.Loading( # Componente para mostrar estado de carga
+                    children=[html.Div(id="test", children="Hola, haz una selección", style={"height": "100%"})],
+                    color="white"
+                )
+                # html.Div(id="test",
+                #         children="Hola, haz una selección",
+                #         style={"height": "100%"}
+                #         )
             ], className="bg-primary text-white p-2 mb-2 text-center", style={"height": "100%"})
         ], width=12, align="center", style={"height": "100%"})
     ], justify="center", style={"height": "8%"}),
@@ -332,7 +440,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             dbc.Card([
-                dbc.Spinner(children=dcc.Graph(id="map", style={"height": "100%"}))
+                dbc.Spinner(children=dcc.Graph(id="map", style={"height": "100%"}), color="primary")
                 # dcc.Graph(id="map", style={"height": "100%"})
             ], style={"height": "100%"})
         ], width=6, style={"height": "100%"}),
@@ -366,22 +474,45 @@ app.layout = dbc.Container([
 
     dbc.Row([
         dbc.Col([
-            dcc.Dropdown(id="KPI",
+            dcc.Dropdown(id="select_graph",
                         options=[
                             {"label": "Bussy Hour", "value": "BH"},
                             {"label": "PRB Occupation", "value": "PRB"},
                             {"label": "Traffic", "value": "Traffic"},
                             {"label": "User Experience", "value": "u_exp"}],
-                        placeholder="Select a KPI"
+                        # placeholder="Select a KPI"
+                        value="PRB",
+                        clearable=False,
                         ),
-        ], width=3),
+        ], width=6, align="center"),
+
+        # dbc.Col([
+        #     dcc.Dropdown(id="full_graph",
+        #                 options=[
+        #                     {"label": "Bussy Hour", "value": "BH"},
+        #                     {"label": "PRB Occupation", "value": "PRB"},
+        #                     {"label": "Traffic", "value": "Traffic"},
+        #                     {"label": "User Experience", "value": "u_exp"}],
+        #                 placeholder="Seleccione una gráfica"
+        #                 ),
+        # ], width=3),
 
         dbc.Col([
-            dbc.Button(id="update_kpi", n_clicks=0, children="Select")
-        ], width=3)
+            # html.A('Descargar datos',id='download_link',download='datos.csv',href='',target='_blank'),
+            dbc.Button(id="update_kpi", n_clicks=0, children="Update Graph"),
+            dbc.Button(id="fullscreen", n_clicks=0, children="Full Screen", style={"margin-left": "5%"}),
+            dbc.Button(id="download", n_clicks=0, children="Download", style={"margin-left": "5%"}),
+            dcc.Download(id="download_file"),
+        ], width=6, align="center"),
     ]),
 
-    dcc.Graph(id="graph_test", style={"height": "100%"}),
+    dbc.Row([
+        dbc.Col([
+            dcc.Graph(id="graph_test", style={"height": "100%"}),
+        ], style={"height": "100%"})
+    ], style={"height": "100%"}),
+
+    # html.A(id='fullscreen-graph-link', target='_blank'),
 
     # dl.Map([
     #     dl.TileLayer(),
@@ -446,7 +577,7 @@ def update_map(input):
 
     elif input == "cluster":
         fig = px.choropleth_mapbox(clusters, geojson=clusters.geometry, locations=clusters.index,
-                        color='Traf_Data_Act',
+                        # color='Traf_Data_Act',
                         zoom=map_layout["zoom"], center=map_layout["center"],
                         opacity=0.5,
                         hover_name="key",
@@ -562,7 +693,7 @@ def update_dropdown(input):
         options = [{'label': i, 'value': i} for i in options_df]
 
     elif input == "total":
-        options = {'label': 'Total de la red', 'value': "Total de la red"}
+        options = [{'label': 'Total de la red', 'value': "Total de la red"}]
     
     return options
 
@@ -605,6 +736,9 @@ def make_zoom(input, agg):
     # lon_mean = auxdf["dwh_longitud"].astype(float).mean()
 
     zoom = 14
+    # # Coordenadas Ecotek
+    # lat_mean = 4.6837
+    # lon_mean = -74.0566
 
     if agg == "celda":
         auxdf = df_geo[["dwh_cell_name_wom","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
@@ -654,6 +788,9 @@ def make_zoom(input, agg):
     elif agg == "total":
         raise PreventUpdate # No modifica ninguna salida
 
+    if auxdf.empty:
+        raise PreventUpdate # No modifica ninguna salida si no encuentra coincidencias
+    
     patched_figure = Patch() # Patch para actualizar el atributo de una figura sin tener que crear la de nuevos
     patched_figure['layout']['mapbox']['zoom'] = zoom # Ruta para modificar el zoom
     patched_figure['layout']['mapbox']['center']['lat'] = lat_mean # Ruta para modificar atributo de latitud
@@ -672,267 +809,158 @@ def make_zoom(input, agg):
         Output(component_id='user_exp', component_property='figure'),
         Output(component_id='bh', component_property='figure'),
         Output(component_id='PRB', component_property='figure'),
-        Output(component_id='graph_test', component_property='figure'),
+
+        Input(component_id='solicitar', component_property='n_clicks'),
+
+        State(component_id='select', component_property='value'),
         State(component_id="aggregation", component_property='value'),
-        Input(component_id='select', component_property='value')
+        State(component_id="time_agg", component_property='value'),
+        State(component_id="time", component_property='start_date'),
+        State(component_id="time", component_property='end_date'),
+
+        # prevent_initial_call=True, # Evitar el primer llamado automatico que hace dash
+
+        # running=[(Output(component_id='solicitar', component_property='disabled'), True, False)] # Mientras el callback esté corriendo desactiva el botón
 )
-def update_graphs(agg, input):
-    if input is None:
+def update_graphs(boton, selected_cell, geo_agg, time_agg, start_date, end_date):
+    if boton is None:
         raise PreventUpdate
     
-    selected_cell = input
+    if selected_cell is None:
+        container = "Por favor haz una selección"
+        return container, no_update, no_update, no_update, no_update, no_update # Solo se actualiza la salida de texto, el resto se queda igual
+
     print("selección función graphs: ", selected_cell)
-    print(type(selected_cell))
-    #selected_cell = input['points'][0]["customdata"][0]
-    #name = input['points'][0]["hovertext"]
+    # print(type(selected_cell))
+    print("Geo_Agg: ", geo_agg)
+    print("Time agg: ", time_agg)
+    # Convertir las fechas de inicio y fin a formato datetime
+    # start_date = datetime.strptime(start_date.split('T')[0], '%Y-%m-%d')
+    # end_date = datetime.strptime(end_date.split('T')[0], '%Y-%m-%d')
+    print("Start date: ", start_date)
+    print("End date: ", end_date)
     container = "Su selección es: {}".format(selected_cell)
 
-    if(agg == "celda"): # Si se eligió una agregación de celda
-        data = df[df["Cell_name"].str.upper() == selected_cell].copy() # Copia del df unicamente con las filas cuyo valor en la columna "Cell_name" concuerde con la celda que definí
-        # Gráficar tráfico máximo y promedio
-        # fig_uexp = px.line(data, x="Timestamp", y="L.Traffic.ActiveUser.DL.Max", title="Max Traffic by active users by cell")
-        # fig_test = px.line(data, x="Timestamp", y="L.Traffic.ActiveUser.DL.Avg", title="Avg Traffic by active users by cell")
+    data = query_to_df(selected_cell, geo_agg, start_date, end_date) # Función que hace la consulta a la base de datos
+    if data.empty:
+        container = "No hay datos para su selección: {}".format(selected_cell)
+        return container, no_update, no_update, no_update, no_update, no_update # Solo se actualiza la salida de texto, el resto se queda igual
 
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-        # fig_bh = px.bar(bh_df, x="Date", y="L.Traffic.ActiveUser.DL.Avg", title="BH by day", text="Time") # Graficar la hora pico por día y su valor correspondiente
+    if time_agg == "hora":
+        # Graficar por hora
+        bh_df = data[["Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Traffic.ActiveUser.DL.Max"]].copy()
+        bh_df['Date'] = bh_df['Timestamp'].dt.date # Vuelvo a crear columna Date y Time que se habían perdido con el fin de gráficar respecto a la fecha y mostrar la hora
+        bh_df['Time'] = bh_df['Timestamp'].dt.strftime('%H:%M') # Formato para que solo sea Hora y Minuto
+        fig_bh = go.Figure() # Crea una figura vacía
+        fig_bh.add_trace(go.Scatter(x=bh_df["Timestamp"], y=bh_df["L.Traffic.ActiveUser.DL.Avg"], mode="lines", name="Avg"))
+        fig_bh.add_trace(go.Scatter(x=bh_df["Timestamp"], y=bh_df["L.Traffic.ActiveUser.DL.Max"], mode="lines", name="Max"))
 
-        # Calculo ocupación PRBs
-        prb_df = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
-        prb_df = prb_df[["Timestamp", "Cell_name", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
-        # print("PRB OCCUP: ")
-        # print(prb_df)
-        prb_df["DL_PRB_usage"] = (prb_df["L.ChMeas.PRB.DL.Used.Avg"] / prb_df["L.ChMeas.PRB.DL.Avail"]) * 100
-        prb_df["UL_PRB_usage"] = (prb_df["L.ChMeas.PRB.UL.Used.Avg"] / prb_df["L.ChMeas.PRB.UL.Avail"]) * 100
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-
+        # Ocupación PRB por hora
+        prb_df = data[["Timestamp", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]].copy()# Solo columnas necesarias
+        prb_df = prb_df.reset_index(drop=True)
+        prb_df["DL_PRB_usage"] = (prb_df["L.ChMeas.PRB.DL.Used.Avg"] / prb_df["L.ChMeas.PRB.DL.Avail"]) * 100 # Cálculo de % ocupación en downlink y guardado en nueva columna
+        prb_df["UL_PRB_usage"] = (prb_df["L.ChMeas.PRB.UL.Used.Avg"] / prb_df["L.ChMeas.PRB.UL.Avail"]) * 100 # # Cálculo de % ocupación en uplink y guardado en nueva columna
+        fig_prb = graph_prb(prb_df)
         gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
         print("gauge value: ", gauge_value)
 
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
+        # Gráfica de tráfico
+        fig_trff = go.Figure(data=go.Scatter(x=data["Timestamp"], y=data["L.Thrp.bits.DL(bit)"], mode="lines", name="Traffic"))
 
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")["L.Traffic.ActiveUser.DL.Avg"].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x="Timestamp", y="L.Traffic.ActiveUser.DL.Avg", title='Average users')
-
+        # Gráfica de user experience
+        user_exp_df = data[["Timestamp","L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]].copy() # Solo columnas necesarias
+        user_exp_df = user_exp_df.reset_index(drop=True)
+        user_exp_df["User_Exp"] = ((user_exp_df["L.Thrp.bits.DL(bit)"]-user_exp_df["L.Thrp.bits.DL.LastTTI(bit)"]) / (user_exp_df["L.Thrp.Time.DL.RmvLastTTI(ms)"])) / 1024 # Calculo user experience
+        fig_uexp = go.Figure(data=go.Scatter(x=user_exp_df["Timestamp"], y=user_exp_df["User_Exp"], mode="lines", name="U_exp"))
     
-    elif(agg == "sector"):
-        cells = df_geo[df_geo["sector_name"] == selected_cell].copy() # Genero dataframe solo con las celdas dentro del sector seleccionado
-        data = filtrado(cells, df)
-
-        # Gráficar tráfico máximo y promedio
-        # datos_max = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Max'].sum().reset_index() # df con max data sumada
-        # fig_uexp = px.line(datos_max, x='Timestamp', y='L.Traffic.ActiveUser.DL.Max', title='Max Traffic by active users by cell')
-        # datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        # fig_trff = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Avg Traffic by active users by cluster')
+    else: # Si es una agregación temporal diferente de hora
 
         # Calculo BH(hora pico) por día
         bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
+        # print("BH despues de primera función:\n", bh_df)
         bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
+        # fig_bh = graph_BH(bh_df, bh_df_max)
+        # print("BH despues de graficar:\n", bh_df)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
         # print("PRB usage:\n", prb_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        # fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
+        # fig_prb = graph_prb(prb_df)
         gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
+        # print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
+        trff_df, trff_bh = traffic(data, bh_df)
+        # fig_trff = graph_trff(trff_df, trff_bh)
 
         # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
+        user_exp_df = user_exp(data, bh_df)
+        # fig_uexp = go.Figure(data=go.Scatter(x=user_exp_df["Timestamp"], y=user_exp_df["User_Exp"], mode="lines", name="U_exp"))
 
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
+        if time_agg == "semana":
+            # BH(Hora pico)
+            # print("bh_df antes de agrupar semana avg:\n", bh_df)
+            # Agrupar los datos por semana y calcular los promedios
+            agg_bh_df = bh_df.resample('W-Mon', on='Timestamp').mean().reset_index() # W-Mon significa que la semana empieza el lunes
+            # print("bh_df despues de agrupar semana avg:\n", agg_bh_df)
+            # print("bh_df antes de agrupar semana max:\n", bh_df_max)
+            agg_bh_df_max = bh_df_max.resample('W-Mon', on='Timestamp').mean().reset_index()
+            # print("bh_df despues de agrupar semana max:\n", agg_bh_df_max)
+            fig_bh = go.Figure() # Crea una figura vacía
+            fig_bh.add_trace(go.Bar(x=agg_bh_df["Timestamp"], y=agg_bh_df["L.Traffic.ActiveUser.DL.Avg"], name="Avg"))
+            fig_bh.add_trace(go.Bar(x=agg_bh_df_max["Timestamp"], y=agg_bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max"))
+            print("BH semana agregada")
+            # Ocupación PRB
+            agg_prb_df = prb_df.resample('W-Mon', on='Timestamp').mean().reset_index()
+            fig_prb = graph_prb(agg_prb_df)
+            print("PRB semana agregada")
+            # Trafico
+            trff_df["Timestamp"] = pd.to_datetime(trff_df['Timestamp']) # Convierto a timestamp de nuevo porque me estaba generando un error
+            agg_trff_df = trff_df.resample('W-Mon', on='Timestamp').mean().reset_index()
+            agg_trff_df_bh = trff_bh.resample('W-Mon', on='Timestamp').mean().reset_index()
+            fig_trff = graph_trff(agg_trff_df, agg_trff_df_bh)
 
+            # User experience
+            agg_uexp_df = user_exp_df.resample('W-Mon', on='Timestamp').mean().reset_index()
+            fig_uexp = go.Figure(data=go.Scatter(x=agg_uexp_df["Timestamp"], y=agg_uexp_df["User_Exp"], mode="lines", name="U_exp"))
+            print("uexp semana agregada")
+        elif time_agg == "mes":
+            # BH(Hora pico)
+            # print("bh_df antes de agrupar semana avg:\n", bh_df)
+            # Agrupar los datos por semana y calcular los promedios
+            agg_bh_df = bh_df.resample('MS', on='Timestamp').mean().reset_index() # W-Mon significa que la semana empieza el lunes
+            # print("bh_df despues de agrupar semana avg:\n", agg_bh_df)
+            # print("bh_df antes de agrupar semana max:\n", bh_df_max)
+            agg_bh_df_max = bh_df_max.resample('MS', on='Timestamp').mean().reset_index()
+            # print("bh_df despues de agrupar semana max:\n", agg_bh_df_max)
+            fig_bh = go.Figure() # Crea una figura vacía
+            fig_bh.add_trace(go.Bar(x=agg_bh_df["Timestamp"], y=agg_bh_df["L.Traffic.ActiveUser.DL.Avg"], name="Avg"))
+            fig_bh.add_trace(go.Bar(x=agg_bh_df_max["Timestamp"], y=agg_bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max"))
+            print("BH semana agregada")
+            # Ocupación PRB
+            agg_prb_df = prb_df.resample('MS', on='Timestamp').mean().reset_index()
+            fig_prb = graph_prb(agg_prb_df)
+            print("PRB semana agregada")
+            # Trafico
+            trff_df["Timestamp"] = pd.to_datetime(trff_df['Timestamp']) # Convierto a timestamp de nuevo porque me estaba generando un error
+            agg_trff_df = trff_df.resample('MS', on='Timestamp').mean().reset_index()
+            agg_trff_df_bh = trff_bh.resample('MS', on='Timestamp').mean().reset_index()
+            fig_trff = graph_trff(agg_trff_df, agg_trff_df_bh)
 
-    elif(agg == "EB"): # Si se eligio agregación de Estacion Base
-        cells = df_geo[df_geo["node_name"] == selected_cell].copy() # Genero dataframe solo con las celdas dentro del nodo
-        data = filtrado(cells, df)
+            # User experience
+            agg_uexp_df = user_exp_df.resample('MS', on='Timestamp').mean().reset_index()
+            fig_uexp = go.Figure(data=go.Scatter(x=agg_uexp_df["Timestamp"], y=agg_uexp_df["User_Exp"], mode="lines", name="U_exp"))
+            print("uexp semana agregada")
 
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
+        else:
+            # Gráficas por día
+            fig_bh = graph_BH(bh_df, bh_df_max) # Graficar BH
+            fig_prb = graph_prb(prb_df) # Graficar PRBs
+            fig_trff = graph_trff(trff_df, trff_bh) # Graficar tráfico
+            fig_uexp = go.Figure(data=go.Scatter(x=user_exp_df["Timestamp"], y=user_exp_df["User_Exp"], mode="lines", name="U_exp")) # Graficar user experience
 
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-    elif(agg == "cluster"): # Si se eligió una agregación de cluster
-        cells = df_geo[df_geo["cluster_key"] == selected_cell].copy() # Genero dataframe solo con las celdas dentro del cluster
-        data = filtrado(cells, df)
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-    elif(agg == "localidad"):
-        cells = df_geo[df_geo["dwh_dane_cod_localidad"] == to_int(selected_cell)].copy() # Genero dataframe solo con las celdas dentro de la localidad
-        data = filtrado(cells, df)
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-    elif(agg == "municipio"): # Si se eligió una agregación de municipio
-        cells = df_geo[df_geo["dane_code"] == to_int(selected_cell)].copy() # Genero dataframe solo con las celdas dentro del municipio
-        data = filtrado(cells, df)
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-
-    elif(agg == "departamento"): # Si se eligió una agregación de municipio
-        cells = df_geo[df_geo["dane_code_dpto"] == to_int(selected_cell)].copy() # Genero dataframe solo con las celdas dentro del departamento
-        data = filtrado(cells, df)
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-    elif(agg == "regional"):
-        cells = df_geo[df_geo["wom_regional"].str.lower() == unidecode(selected_cell.lower())].copy() # Genero dataframe solo con las celdas dentro del departamento
-        data = filtrado(cells, df)
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-
-    elif(agg == "total"):
-        data = df.copy()
-        # data["L.Traffic.ActiveUser.DL.Avg"] = data["L.Traffic.ActiveUser.DL.Avg"].apply(to_float) # Casting de string a float para esta columna
-
-        # Calculo BH(hora pico) por día
-        bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        fig_bh = graph_BH(bh_df, bh_df_max)
-
-
-        # Calculo ocupación PRBs
-        prb_df = PRB_usg(data, bh_df)
-        fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        print("gauge value: ", gauge_value)
-
-        # Calculo y grafica de tráfico
-        fig_trff = traffic(data, bh_df)
-
-        # Calculo y gráfica de experiencia de usuario
-        fig_uexp = user_exp(data, bh_df)
-
-        # Gráfico de prueba
-        datos_avg = data.groupby("Timestamp")['L.Traffic.ActiveUser.DL.Avg'].sum().reset_index() # df con average data sumada
-        # fig_test = px.line(datos_avg, x='Timestamp', y='L.Traffic.ActiveUser.DL.Avg', title='Average users')
-        fig_test = fig_bh
-
+    # Arreglar estilos de gráficos
     fig_trff.update_layout( {
         "margin": {"l": 0, "r": 10, "b": 0, "t": 40}, 
         # "autosize": True
@@ -945,32 +973,122 @@ def update_graphs(agg, input):
         "margin": {"l": 0, "r": 10, "b": 0, "t": 40}, 
         # "autosize": True
          })
+    fig_prb.update_layout( {
+        "margin": {"l": 0, "r": 10, "b": 0, "t": 40}, 
+        # "autosize": True
+         })
+
     # Actualiza el diseño de la figura para mover la leyenda
     fig_bh.update_layout(title="Max and avg users in BH", xaxis_title="Date", yaxis_title="Users",
                   legend=dict(orientation="h"
                             #   , yanchor="bottom", y=1.02, xanchor="right", x=1
                               ))
-    fig_prb.update_layout( {
-        "margin": {"l": 0, "r": 10, "b": 0, "t": 40}, 
-        # "autosize": True
-         })
-    fig_prb.update_layout(legend=dict(    # Personalizar el diseño de la leyenda
-        orientation="h",  # Orientación horizontal
-        # yanchor="bottom",
-        # y=1.02,  # Ajuste la posición vertical de la leyenda
-        # xanchor="right",
-        # x=1
-    ))
+    # Actualiza la información que se muestra al pasar el mouse
+    fig_bh.update_traces(hovertemplate="<b>Date</b>: %{x}<br><b>Users</b>: %{y:.2f} users")
 
     # Actualiza la información que se muestra al pasar el mouse
     fig_trff.update_traces(hovertemplate="<b>Date</b>: %{x}<br><b>Traffic</b>: %{y:.2f} GB")
     # Actualiza el diseño de la figura para mover la leyenda
-    fig_trff.update_layout(title="Traffic and Traffic_BH", xaxis_title="Date", yaxis_title="Traffic (GB)",
+    fig_trff.update_layout(title="Throughput", xaxis_title="Date", yaxis_title="Traffic (GB)",
                   legend=dict(orientation="h"
                             #   , yanchor="bottom", y=1.02, xanchor="right", x=1
                               ))
+    
+    # Actualiza la información que se muestra al pasar el mouse
+    fig_uexp.update_traces(hovertemplate="<b>Date</b>: %{x}<br><b>Value</b>: %{y:.2f} Mbps")
+    # Actualiza el diseño de la figura para mover la leyenda
+    fig_uexp.update_layout(title="User Experience", xaxis_title="Date", yaxis_title="User experience (Mbps)")
 
-    return container, gauge_value, fig_trff, fig_uexp, fig_bh, fig_prb, fig_test
+    # Actualiza la información que se muestra al pasar el mouse
+    fig_prb.update_traces(hovertemplate="<b>Date</b>: %{x}<br><b>Usage</b>: %{y:.2f} %")
+    # Actualiza el diseño de la figura para mover la leyenda
+    fig_prb.update_layout(title="PRB occupation", xaxis_title="Date", yaxis_title="Usage in %",
+                  legend=dict(orientation="h"
+                            #   , yanchor="bottom", y=1.02, xanchor="right", x=1
+                              ))
+    
+    return container, gauge_value, fig_trff, fig_uexp, fig_bh, fig_prb
+
+# # Callback para visualizar KPIs sobre el mapa
+# @callback(
+#         Output(component_id='map', component_property='figure'),
+
+#         Input(component_id='update_kpi', component_property='n_clicks'),
+
+#         State(component_id='select_graph', component_property='value'),
+#         State(component_id="aggregation", component_property='value'),
+# )
+# def map_kpi(boton, kpi, agg):
+
+
+
+# Callback para mostrar la gráfica en pantalla grande
+@callback(
+        Output(component_id='graph_test', component_property='figure'),
+
+        Input(component_id='fullscreen', component_property='n_clicks'),
+
+        State(component_id='select_graph', component_property='value'),
+        State(component_id='traffic', component_property='figure'),
+        State(component_id='user_exp', component_property='figure'),
+        State(component_id='bh', component_property='figure'),
+        State(component_id='PRB', component_property='figure'),
+        prevent_initial_call=True # Evitar el primer llamado automatico que hace dash
+        )
+def full_screen(boton, seleccion, traff, uexp, bh, prb):
+    # print(f"La seleccion exacta es: ->{seleccion}<-")
+    if seleccion == "BH":
+        fig = bh
+    elif seleccion == "PRB":
+        fig = prb
+    elif seleccion == "Traffic":
+        fig = traff
+    elif seleccion == "u_exp":
+        fig = uexp
+    else:
+        raise PreventUpdate
+
+    return fig
+
+# Callback para mostrar la gráfica en pantalla grande
+@callback(
+        Output(component_id='download_file', component_property='data'),
+
+        Input(component_id='download', component_property='n_clicks'),
+
+        State(component_id='select_graph', component_property='value'),
+        State(component_id='traffic', component_property='figure'),
+        State(component_id='user_exp', component_property='figure'),
+        State(component_id='bh', component_property='figure'),
+        State(component_id='PRB', component_property='figure'),
+        prevent_initial_call=True # Evitar el primer llamado automatico que hace dash
+        )
+def download_graph_data(boton, seleccion, traff, uexp, bh, prb):
+    traces_flag = True # Bandera para el gráficos con multiples trazos
+    if seleccion == "BH":
+        fig = bh
+    elif seleccion == "PRB":
+        fig = prb
+    elif seleccion == "Traffic":
+        fig = traff
+    elif seleccion == "u_exp":
+        fig = uexp
+        traces_flag=False
+    else:
+        raise PreventUpdate
+    # print("fig in callback:\n", fig)
+
+    if traces_flag:
+        # Creamos un DataFrame a partir de los datos
+        trazo1 = pd.DataFrame(fig["data"][0])
+        trazo2 = pd.DataFrame(fig["data"][1])
+        df = pd.concat([trazo1, trazo2]).reset_index(drop=True)
+
+    else:
+        df = pd.DataFrame(fig["data"][0])
+
+    # print("df_descarga:\n", df)
+    return dcc.send_data_frame(df.to_csv, "graph_data.csv")
 
 if __name__ == '__main__':
     app.run(debug=True)

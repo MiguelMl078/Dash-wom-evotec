@@ -19,6 +19,9 @@ import datetime as dt
 import numpy as np
 import json
 
+# Scripts adicionales
+import DBcredentials
+
 #---------- Funciones ----------#
 def to_float(n): # Función para convertir a float y convierte los NaN a 0
     try:
@@ -34,15 +37,9 @@ def to_int(n):
         print (ValueError)
         return 0
     
-def query_geodata(): # Función para hacer query desde la base de datos de Sergio
-    # Conectar a la base de datos PostgreSQL
-    conn = psycopg2.connect(
-        host="10.40.111.106",
-        database="analytics_prod",
-        user="evotec",
-        password="3v0t3c",
-        port="5432"
-    )
+def query_geodata(): # Función para hacer query desde la base de datos de info geográfica
+
+    conn = psycopg2.connect(**DBcredentials.BD_GEO_PARAMS)
 
     # Crear un cursor
     cur = conn.cursor()
@@ -183,14 +180,9 @@ def convert_timestamp(timestamp_str):
         return datetime.strptime(timestamp_str + " 00:00:00", "%Y-%m-%d %H:%M:%S")
     
 def query_to_df(seleccion, geo_agregacion, start_date, end_date):
-    # Conectarse a la base de datos
-    conn = psycopg2.connect(
-            host="10.40.111.100",
-            database="analytics_dev",
-            user="reobertocuervo",
-            password="w0m_2024*",
-            port="5432"
-        )
+
+    conn = psycopg2.connect(**DBcredentials.BD_DATA_PARAMS)
+
     # Realizar consulta a la base de datos PostgreSQL dentro del rango de fechas seleccionado
     cur = conn.cursor()
 

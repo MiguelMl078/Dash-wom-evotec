@@ -13,6 +13,7 @@ import geopandas as gpd
 import plotly.express as px
 import plotly.graph_objects as go
 import psycopg2 # Para consulta a base de datos PostgreSQL
+from psycopg2 import sql
 from unidecode import unidecode # Libreria para eliminar acentos y poder hace condicionales tranquilo
 from datetime import datetime, timedelta, date
 import datetime as dt
@@ -139,10 +140,11 @@ def traffic(data, bh_df):
     trff_bh = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
     trff_bh = trff_bh[["Timestamp", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
     trff_bh["L.Thrp.bits.DL(bit)_BH"] = trff_bh["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversión de bit a GB
-    # print("BH:")
+    # print("Traffic BH:")
     # print(trff_bh)
-    trff_bh = trff_bh.groupby("Timestamp")["L.Thrp.bits.DL(bit)_BH"].sum().reset_index() # df con max data sumada
-    # print("POST:")
+    # trff_bh = trff_bh.groupby("Timestamp")["L.Thrp.bits.DL(bit)_BH"].sum().reset_index() # df con max data sumada
+    trff_bh = trff_bh.reset_index(drop=True) # Reiniciar indices sin insertar indices antiguos en columna nueva
+    # print("POST suma:")
     # print(trff_bh)
     # fig_trff.add_trace(go.Scatter(x=trff_bh["Timestamp"], y=trff_bh["L.Thrp.bits.DL(bit)_BH"], mode='lines', name='Traffic_BH')) # Agrega la segunda línea a la misma figura
     return trff_df, trff_bh
@@ -180,88 +182,184 @@ def convert_timestamp(timestamp_str):
         return datetime.strptime(timestamp_str + " 00:00:00", "%Y-%m-%d %H:%M:%S")
     
 def query_to_df(seleccion, geo_agregacion, start_date, end_date):
+    try:
+        conn = psycopg2.connect(**DBcredentials.BD_DATA_PARAMS)
 
-    conn = psycopg2.connect(**DBcredentials.BD_DATA_PARAMS)
+        # Realizar consulta a la base de datos PostgreSQL dentro del rango de fechas seleccionado
+        cur = conn.cursor()
 
-    # Realizar consulta a la base de datos PostgreSQL dentro del rango de fechas seleccionado
-    cur = conn.cursor()
+        if geo_agregacion == "celda":
+            cur.execute("""SELECT "Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_cell" 
+                    WHERE UPPER("Cell_name") = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        
+        elif geo_agregacion == "sector":
+            cur.execute("""SELECT "Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_sector" 
+                    WHERE UPPER("sector_name") = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        
+        elif geo_agregacion == "EB":
+            cur.execute("""SELECT "Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_node" 
+                    WHERE UPPER("node_name") = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        
+        elif geo_agregacion == "cluster":
+            cur.execute("""SELECT "Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_cluster" 
+                    WHERE "cluster_name" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        
+        elif geo_agregacion == "localidad":
+            cur.execute("""SELECT "Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_localidad" 
+                    WHERE "localidad_dane_code" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        
+        elif geo_agregacion == "municipio":
+            cur.execute("""SELECT "Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_municipio" 
+                    WHERE "municipio_dane_code" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
 
-    if geo_agregacion == "celda":
-        cur.execute("""SELECT "Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_cell" 
-                WHERE UPPER("Cell_name") = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","Cell_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+        elif geo_agregacion == "departamento":
+            cur.execute("""SELECT "Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_departamento" 
+                    WHERE "dpto_dane_code" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+        elif geo_agregacion == "regional":
+            cur.execute("""SELECT "Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_regional" 
+                    WHERE "regional_name" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+        elif geo_agregacion == "total":
+            cur.execute("""SELECT "Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_total" 
+                    WHERE DATE("Timestamp") BETWEEN %s AND %s""", (start_date, end_date))
+            columnas = ["Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+        rows = cur.fetchall()
+        df = pd.DataFrame(rows, columns=columnas)
+        df = df.sort_values(by="Timestamp")
+        # print("df from query:\n",df)
+        # Verificar el tipo de datos de la segunda columna
+        # if df.iloc[:, 1].dtype == 'object':  # Verificar si es un objeto (que generalmente significa que es texto)
+        #     df.iloc[:, 1] = df.iloc[:, 1].str.upper() # Convertir los valores de la segunda columna a mayúsculas
+        # else:
+        #     pass
+        
+        # print("df postfunction:\n", df)
+        return df
     
-    elif geo_agregacion == "sector":
-        cur.execute("""SELECT "Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_sector" 
-                WHERE UPPER("sector_name") = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","sector_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    except Exception as e:
+        print("Error al conectar con la base de datos: ", e)
+        return pd.DataFrame()
     
-    elif geo_agregacion == "EB":
-        cur.execute("""SELECT "Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_node" 
-                WHERE UPPER("node_name") = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","node_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
-    
-    elif geo_agregacion == "cluster":
-        cur.execute("""SELECT "Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_cluster" 
-                WHERE "cluster_name" = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","cluster_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
-    
-    elif geo_agregacion == "localidad":
-        cur.execute("""SELECT "Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_localidad" 
-                WHERE "localidad_dane_code" = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","localidad_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
-    
-    elif geo_agregacion == "municipio":
-        cur.execute("""SELECT "Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_municipio" 
-                WHERE "municipio_dane_code" = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    finally:
+        cur.close()
+        conn.close()
 
-    elif geo_agregacion == "departamento":
-        cur.execute("""SELECT "Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_departamento" 
-                WHERE "dpto_dane_code" = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+def map_query(start_date, end_date, kpi, geo_agg, name_column):
+    table_mapping = { # Opciones para completar la consulta segun agregación seleccionada
+        'celda': 'ran_1h_cell',
+        'sector': 'ran_1h_sector',
+        'EB': 'ran_1h_node',
+        'cluster': 'ran_1h_cluster',
+        'localidad': 'ran_1h_localidad',
+        'municipio': 'ran_1h_municipio',
+        'departamento': 'ran_1h_departamento',
+        'regional': 'ran_1h_regional',
+        'total': 'ran_1h_total'
+    }
 
-    elif geo_agregacion == "regional":
-        cur.execute("""SELECT "Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_regional" 
-                WHERE "regional_name" = %s
-                AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
-        columnas = ["Timestamp","regional_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    table_name = table_mapping[geo_agg] # Elección para completar la consulta según agregación
 
-    elif geo_agregacion == "total":
-        cur.execute("""SELECT "Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
-                FROM "ran_1h_total" 
-                WHERE DATE("Timestamp") BETWEEN %s AND %s""", (start_date, end_date))
-        columnas = ["Timestamp","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+    try:
+        # Conectarse a la base de datos
+        conn = psycopg2.connect(**DBcredentials.BD_DATA_PARAMS)
 
-    rows = cur.fetchall()
-    df = pd.DataFrame(rows, columns=columnas)
-    cur.close()
-    conn.close()
-    df = df.sort_values(by="Timestamp")
-    # print("df from query:\n",df)
-    # Verificar el tipo de datos de la segunda columna
-    # if df.iloc[:, 1].dtype == 'object':  # Verificar si es un objeto (que generalmente significa que es texto)
-    #     df.iloc[:, 1] = df.iloc[:, 1].str.upper() # Convertir los valores de la segunda columna a mayúsculas
-    # else:
-    #     pass
+        # Crear cursor
+        cur = conn.cursor()
+        
+        if kpi == "BH":
+            if geo_agg == 'total':
+                query = sql.SQL("""SELECT "Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Traffic.ActiveUser.DL.Max"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(table_name))
+                columns = ["Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Traffic.ActiveUser.DL.Max"]
+            else:
+                query = sql.SQL("""SELECT "Timestamp", {}, "L.Traffic.ActiveUser.DL.Avg", "L.Traffic.ActiveUser.DL.Max"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(name_column), sql.Identifier(table_name))
+                columns = ["Timestamp", name_column, "L.Traffic.ActiveUser.DL.Avg", "L.Traffic.ActiveUser.DL.Max"]
+        
+        elif kpi == "PRB":
+            if geo_agg == 'total':
+                query = sql.SQL("""SELECT "Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(table_name))
+                columns = ["Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]
+            else:
+                query = sql.SQL("""SELECT "Timestamp", {}, "L.Traffic.ActiveUser.DL.Avg", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(name_column), sql.Identifier(table_name))
+                columns = ["Timestamp", name_column, "L.Traffic.ActiveUser.DL.Avg", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]
+        
+        elif kpi == "Traffic":
+            if geo_agg == 'total':
+                query = sql.SQL("""SELECT "Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.UL(bit)"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(table_name))
+                columns = ["Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.UL(bit)"]
+            else:
+                query = sql.SQL("""SELECT "Timestamp", {}, "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.UL(bit)"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(name_column), sql.Identifier(table_name))
+                columns = ["Timestamp", name_column, "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.UL(bit)"]
+
+        elif kpi == "u_exp":
+            if geo_agg == 'total':
+                query = sql.SQL("""SELECT "Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(table_name))
+                columns = ["Timestamp", "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]
+            else:
+                query = sql.SQL("""SELECT "Timestamp", {}, "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"
+                                FROM {}
+                                WHERE DATE("Timestamp") BETWEEN %s AND %s""").format(sql.Identifier(name_column), sql.Identifier(table_name))
+                columns = ["Timestamp", name_column, "L.Traffic.ActiveUser.DL.Avg", "L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
+        # print("Consulta :", query.as_string(cur))
+        
+        cur.execute(query, (start_date, end_date))
+        print("Consulta para mostrar KPI en el mapa exitosa")
+        rows = cur.fetchall()
+        
+        df = pd.DataFrame(rows, columns=columns)
+        df = df.sort_values(by="Timestamp")
+        print("Se ha creado el dataframe de la consulta para mostrar el KPI")
+
+        return df
+
+    except Exception as e:
+        print("Error al conectar con la base de datos: ", e)
+        return pd.DataFrame()
     
-    # print("df postfunction:\n", df)
-    return df
+    finally:
+        cur.close()
+        conn.close()
     
 
 
@@ -370,8 +468,8 @@ app.layout = dbc.Container([
                         dcc.DatePickerRange(id="time",
                                             display_format='YYYY-MM-DD',
                                             start_date_placeholder_text="Seleccione",
-                                            end_date=datetime.today(),
-                                            start_date=datetime.today() - timedelta(days=30)
+                                            end_date=(datetime.today() - timedelta(days=1)).strftime("%Y-%m-%d"), # strftime convierte a string con el formato definido como parametro
+                                            start_date=(datetime.today() - timedelta(days=31)).strftime("%Y-%m-%d") # strftime convierte a string con el formato definido como parametro
                                             # min_date_allowed=date(2021, 1, 1),
                                 )
                     ], width=6),
@@ -468,7 +566,7 @@ app.layout = dbc.Container([
         dbc.Col([
             dcc.Dropdown(id="select_graph",
                         options=[
-                            {"label": "Bussy Hour", "value": "BH"},
+                            {"label": "Active Users", "value": "BH"},
                             {"label": "PRB Occupation", "value": "PRB"},
                             {"label": "Traffic", "value": "Traffic"},
                             {"label": "User Experience", "value": "u_exp"}],
@@ -478,17 +576,6 @@ app.layout = dbc.Container([
                         ),
         ], width=6, align="center"),
 
-        # dbc.Col([
-        #     dcc.Dropdown(id="full_graph",
-        #                 options=[
-        #                     {"label": "Bussy Hour", "value": "BH"},
-        #                     {"label": "PRB Occupation", "value": "PRB"},
-        #                     {"label": "Traffic", "value": "Traffic"},
-        #                     {"label": "User Experience", "value": "u_exp"}],
-        #                 placeholder="Seleccione una gráfica"
-        #                 ),
-        # ], width=3),
-
         dbc.Col([
             # html.A('Descargar datos',id='download_link',download='datos.csv',href='',target='_blank'),
             dbc.Button(id="update_kpi", n_clicks=0, children="Update Graph"),
@@ -496,6 +583,12 @@ app.layout = dbc.Container([
             dbc.Button(id="download", n_clicks=0, children="Download", style={"margin-left": "5%"}),
             dcc.Download(id="download_file"),
         ], width=6, align="center"),
+    ]),
+
+    dbc.Row([
+        dbc.Col([
+            html.Div(id="map_text", children="No se ha seleccionado KPI en el mapa", style={"height": "100%"}),
+        ], width=6, align="center")
     ]),
 
     dbc.Row([
@@ -703,10 +796,11 @@ def make_selection(input):
     print(input)
     selected = input['points'][0]["customdata"][0] # Accedo a la información que mandé en el mapa
 
-    if selected.isdigit(): # Si el valor es completamente compuesto de dígitos
-        return to_int(selected) # Retorno como entero
-    else:
-        return selected
+    # if selected.isdigit(): # Si el valor es completamente compuesto de dígitos
+    #     return to_int(selected) # Retorno como entero
+    # else:
+    #     return selected
+    return selected
 
 
 
@@ -755,7 +849,7 @@ def make_zoom(input, agg):
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "localidad":
         zoom = 12
-        auxdf = df_geo[["dwh_dane_cod_localidad","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
+        auxdf = df_geo[["node_name","dwh_dane_cod_localidad","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dwh_dane_cod_localidad"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
@@ -783,6 +877,8 @@ def make_zoom(input, agg):
     if auxdf.empty:
         raise PreventUpdate # No modifica ninguna salida si no encuentra coincidencias
     
+    # print(f"lat mean: {lat_mean}")
+    # print(f"lon mean: {lon_mean}")
     patched_figure = Patch() # Patch para actualizar el atributo de una figura sin tener que crear la de nuevos
     patched_figure['layout']['mapbox']['zoom'] = zoom # Ruta para modificar el zoom
     patched_figure['layout']['mapbox']['center']['lat'] = lat_mean # Ruta para modificar atributo de latitud
@@ -827,15 +923,14 @@ def update_graphs(boton, selected_cell, geo_agg, time_agg, start_date, end_date)
     print("Geo_Agg: ", geo_agg)
     print("Time agg: ", time_agg)
     # Convertir las fechas de inicio y fin a formato datetime
-    # start_date = datetime.strptime(start_date.split('T')[0], '%Y-%m-%d')
-    # end_date = datetime.strptime(end_date.split('T')[0], '%Y-%m-%d')
     print("Start date: ", start_date)
     print("End date: ", end_date)
+    # print("tipo fecha: ", type(end_date))
     container = "Su selección es: {}".format(selected_cell)
 
     data = query_to_df(selected_cell, geo_agg, start_date, end_date) # Función que hace la consulta a la base de datos
     if data.empty:
-        container = "No hay datos para su selección: {}".format(selected_cell)
+        container = "No hay datos para su selección en este rango de fechas: {}".format(selected_cell)
         return container, no_update, no_update, no_update, no_update, no_update # Solo se actualiza la salida de texto, el resto se queda igual
 
     if time_agg == "hora":
@@ -857,7 +952,9 @@ def update_graphs(boton, selected_cell, geo_agg, time_agg, start_date, end_date)
         print("gauge value: ", gauge_value)
 
         # Gráfica de tráfico
-        fig_trff = go.Figure(data=go.Scatter(x=data["Timestamp"], y=data["L.Thrp.bits.DL(bit)"], mode="lines", name="Traffic"))
+        trff_df = data[["Timestamp","L.Thrp.bits.DL(bit)"]].copy() # Solo columnas necesarias
+        trff_df["L.Thrp.bits.DL(bit)"] = trff_df["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # De bits a GB
+        fig_trff = go.Figure(data=go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode="lines", name="Traffic"))
 
         # Gráfica de user experience
         user_exp_df = data[["Timestamp","L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]].copy() # Solo columnas necesarias
@@ -981,7 +1078,7 @@ def update_graphs(boton, selected_cell, geo_agg, time_agg, start_date, end_date)
     # Actualiza la información que se muestra al pasar el mouse
     fig_trff.update_traces(hovertemplate="<b>Date</b>: %{x}<br><b>Traffic</b>: %{y:.2f} GB")
     # Actualiza el diseño de la figura para mover la leyenda
-    fig_trff.update_layout(title="Throughput", xaxis_title="Date", yaxis_title="Traffic (GB)",
+    fig_trff.update_layout(title="DL Data Traffic", xaxis_title="Date", yaxis_title="Traffic (GB)",
                   legend=dict(orientation="h"
                             #   , yanchor="bottom", y=1.02, xanchor="right", x=1
                               ))
@@ -1001,17 +1098,217 @@ def update_graphs(boton, selected_cell, geo_agg, time_agg, start_date, end_date)
     
     return container, gauge_value, fig_trff, fig_uexp, fig_bh, fig_prb
 
-# # Callback para visualizar KPIs sobre el mapa
-# @callback(
-#         Output(component_id='map', component_property='figure'),
+# Callback para visualizar KPIs sobre el mapa
+@callback(
+        Output(component_id='map', component_property='figure', allow_duplicate=True),
+        Output(component_id='map_text', component_property='children'),
 
-#         Input(component_id='update_kpi', component_property='n_clicks'),
+        Input(component_id='update_kpi', component_property='n_clicks'),
 
-#         State(component_id='select_graph', component_property='value'),
-#         State(component_id="aggregation", component_property='value'),
-# )
-# def map_kpi(boton, kpi, agg):
+        State(component_id='select_graph', component_property='value'),
+        State(component_id="aggregation", component_property='value'),
+        State(component_id="time", component_property='end_date'),
+        prevent_initial_call=True # Para que no me genere la alerta de salida duplicada
+)
+def map_kpi(boton, kpi, agg, date):
+    if boton is None:
+        raise PreventUpdate
+    
+    if agg == "total": # Acción por si se elige agregación total
+        warning = f"No se puede mostrar datos para la totalidad de la red"
+        return no_update, warning
 
+    # print(f"Date original: {date} -> {type(date)}")
+    date = datetime.strptime(date, "%Y-%m-%d") # Paso a formato datetime
+    start_date = date - timedelta(days=2) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
+
+    date = date.strftime("%Y-%m-%d") # Paso de datetime a string
+    start_date = start_date.strftime("%Y-%m-%d")
+    
+
+    text = f"Los para la visualización del KPI van desde {start_date} hasta {date}"
+
+    name_column_mapping = { # Opciones para completar la consulta y agregar datos según agregación
+        'celda': 'Cell_name',
+        'sector': 'sector_name',
+        'EB': 'node_name',
+        'cluster': 'cluster_name',
+        'localidad': 'localidad_dane_code',
+        'municipio': 'municipio_dane_code',
+        'departamento': 'dpto_dane_code',
+        'regional': 'regional_name',
+        'total': None  # No hay columna específica para 'total'
+    }
+    data_column = name_column_mapping[agg]
+
+    df = map_query(start_date, date, kpi, agg, data_column) # Llamado a la función que hace la consulta
+
+    if df.empty: # Acción por si el dataframe está vacio
+        warning = f"No hay datos para la fecha {date}"
+        return no_update, warning
+
+    # Encontrar hora pico (BH)
+    df['date'] = df['Timestamp'].dt.date # Crear columna con días
+    bh_day = df.groupby([data_column, 'date'])["L.Traffic.ActiveUser.DL.Avg"].idxmax() # Agrupo los datos por nombre de celda y luego encuentro las horas donde los usuarios son máximos
+    bh_df = df.loc[bh_day] # Creo un nuevo df con las horas pico por día
+    
+    if kpi == "BH":
+        graph_column = "L.Traffic.ActiveUser.DL.Avg" # Guardo la columna de filtrado porque con ella es que se grafican colores en el mapa
+
+        bh_df = bh_df[[data_column,graph_column]].copy() # Copia del df solo con estas columnas
+        # print("Bh_df:\n", bh_df)
+        bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index() # Se promedia por nombre de marcador o polígono
+        # print("total avg:\n", bh_df)
+
+    elif kpi == "PRB":
+        bh_df = bh_df.copy()
+        # print("df pre PRB usage\n", bh_df)
+        bh_df["DL_PRB_usage"] = (bh_df["L.ChMeas.PRB.DL.Used.Avg"] / bh_df["L.ChMeas.PRB.DL.Avail"]) * 100 # Cálculo de % ocupación en downlink y guardado en nueva columna
+        bh_df["UL_PRB_usage"] = (bh_df["L.ChMeas.PRB.UL.Used.Avg"] / bh_df["L.ChMeas.PRB.UL.Avail"]) * 100 # Cálculo de % ocupación en uplink y guardado en nueva columna
+        graph_column = "DL_PRB_usage"
+        bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index()
+        # print("total avg PRB:\n", bh_df)
+
+    elif kpi == "Traffic":
+        bh_df = bh_df.copy()
+        # print("df pre traffic\n", bh_df)
+        bh_df["L.Thrp.bits.DL(GB)"] = bh_df["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversión de bit a GB
+        graph_column = "L.Thrp.bits.DL(GB)"
+        bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index()
+        # print("total avg trff:\n", bh_df)
+
+    elif kpi == "u_exp":
+        bh_df = bh_df.copy()
+        # print("df pre u_exp\n", bh_df)
+        bh_df["User_Exp"] = ((bh_df["L.Thrp.bits.DL(bit)"]-bh_df["L.Thrp.bits.DL.LastTTI(bit)"]) / (bh_df["L.Thrp.Time.DL.RmvLastTTI(ms)"])) / 1024 # Calculo user experience
+        graph_column = "User_Exp"
+        bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index()
+        # print("total avg u_exp:\n", bh_df)
+    
+    else:
+        print("Hubo un error en la selección del KPI")
+        raise PreventUpdate
+    
+    # Definir las configuraciones de zoom y centro del mapa una vez
+    map_layout = dict(zoom=5, center={"lat": 4.6837, "lon": -74.0566})
+
+    if agg == "celda":
+        cells = df_geo.drop_duplicates(subset=["dwh_cell_name_wom"]).copy() # Df con nombres únicos de celda
+        bh_df[data_column] = bh_df[data_column].str.upper() # Valores a mayusculas
+        df_merged = cells.merge(bh_df, how="left", left_on="dwh_cell_name_wom", right_on="Cell_name") # Merge según nombre de celdas
+
+        fig = px.scatter_mapbox(df_merged, lat="dwh_latitud", lon="dwh_longitud",
+                                color=graph_column, 
+                                # size=graph_column, # No se utiliza size porque no toma valores nulos, tendría que borrar muchas celdas
+                                zoom=map_layout["zoom"], center=map_layout["center"],
+                                hover_name="dwh_cell_name_wom",
+                                custom_data="dwh_cell_name_wom"
+                                )
+    
+    elif agg == "sector":
+        sectores = df_geo.drop_duplicates(subset=["sector_name"]).copy() # Df con nombres únicos de sector
+        df_merged = sectores.merge(bh_df, how="left", left_on="sector_name", right_on="sector_name")
+
+        fig = px.scatter_mapbox(df_merged, lat="dwh_latitud", lon="dwh_longitud",
+                                color=graph_column, 
+                                # size=graph_column,
+                                zoom=map_layout["zoom"], center=map_layout["center"],
+                                hover_name="sector_name",
+                                custom_data="sector_name"
+                                )
+
+    elif agg == "EB":
+        nodos = df_geo.drop_duplicates(subset=["node_name"]).copy() # Df con nombres únicos de nodo
+        df_merged = nodos.merge(bh_df, how="left", left_on="node_name", right_on="node_name")
+
+        fig = px.scatter_mapbox(df_merged, lat="dwh_latitud", lon="dwh_longitud",
+                                color=graph_column, 
+                                # size=graph_column,
+                                zoom=map_layout["zoom"], center=map_layout["center"],
+                                hover_name="node_name",
+                                custom_data="node_name"
+                                )
+
+    elif agg == "cluster":
+        # print("Clusters:\n",clusters)
+        df_merged = clusters.merge(bh_df, how="left", left_on="key", right_on="cluster_name")
+        # print("merge clusters:\n", df_merged)
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="key",
+                                   custom_data="key"
+                                   )
+    
+    elif agg == "localidad":
+        # print("Localidades:\n",localidades)
+        localidades.info(verbose=True)
+        localidades["Localidad"] = localidades["Localidad"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
+        df_merged = localidades.merge(bh_df, how="left", left_on="Localidad", right_on="localidad_dane_code")
+        # print("merge localidaes:\n", df_merged)
+        fig = px.choropleth_mapbox(df_merged, geojson=localidades.geometry, locations=localidades.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="Nombre_localidad",
+                                   hover_data="Localidad",
+                                   custom_data="Localidad"
+                                   )
+    
+    elif agg == "municipio":
+        # print("Muns:\n",municipios)
+        municipios.info(verbose=True)
+        municipios["MPIO_CCNCT"] = municipios["MPIO_CCNCT"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
+        df_merged = municipios.merge(bh_df, how="left", left_on="MPIO_CCNCT", right_on="municipio_dane_code")
+        # print("merge muns:\n", df_merged)
+        fig = px.choropleth_mapbox(df_merged, geojson=municipios.geometry, locations=municipios.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="MPIO_CNMBR",
+                                   hover_data="MPIO_CCNCT",
+                                   custom_data="MPIO_CCNCT"
+                                   )
+        
+    elif agg == "departamento":
+        # print("dptos:\n",departamentos)
+        departamentos.info(verbose=True)
+        departamentos["DPTO_CCDGO"] = departamentos["DPTO_CCDGO"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
+        df_merged = departamentos.merge(bh_df, how="left", left_on="DPTO_CCDGO", right_on="dpto_dane_code")
+        # print("merge dptos:\n", df_merged)
+        fig = px.choropleth_mapbox(df_merged, geojson=departamentos.geometry, locations=departamentos.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="DPTO_CNMBR",
+                                   hover_data="DPTO_CCDGO",
+                                   custom_data="DPTO_CCDGO"
+                                   )
+    
+    elif agg == "regional":
+        # print("Regional:\n",regionales)
+        df_merged = regionales.merge(bh_df, how="left", left_on="DPTO_REGIONAL", right_on="regional_name")
+        # print("merge regional:\n", df_merged)
+        fig = px.choropleth_mapbox(df_merged, geojson=regionales.geometry, locations=regionales.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="DPTO_REGIONAL",
+                                   custom_data="DPTO_REGIONAL"
+                                   )
+
+    elif agg == "total":
+        data = {}
+        fig = px.scatter_mapbox(data, 
+                                zoom=map_layout["zoom"], center=map_layout["center"]
+                                )
+
+    fig.update_layout(mapbox_style="open-street-map",
+                        margin={"r":0,"t":0,"l":0,"b":0},
+                        )
+    
+    return fig, text
 
 
 # Callback para mostrar la gráfica en pantalla grande

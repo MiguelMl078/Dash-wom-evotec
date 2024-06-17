@@ -37,6 +37,55 @@ def to_int(n):
     except ValueError:
         print (ValueError)
         return 0
+
+def comprobacion_localidad(row): # Función para verificar si el código de localidad es correcto
+    # La finalidad de esta función es evitar agrupar las celdas que contienen un error en su codigo DANE de localidades en la base de datos
+
+    localidad_code = str(row["dwh_dane_cod_localidad"])
+    municipio_code = str(row["dane_code"])
+    
+    # Verificar si el código del municipio está contenido en el código de la localidad
+    if localidad_code.startswith(municipio_code):
+        return True
+    else:
+        return False
+    
+def area_metro(cell_name):
+    # Diccionario de áreas metropolitanas
+    areas_metropolitanas = {
+        'ARM': 'Armenia AM',
+        'CARM': 'Armenia AM',
+        'AMB': 'Barranquilla AM',
+        'BQL': 'Barranquilla AM',
+        'CBQL': 'Barranquilla AM',
+        'BTA': 'Bogota AM',
+        'CBT': 'Bogota AM',
+        'CBTA': 'Bogota AM',
+        'AMS': 'Bucaramanga AM',
+        'BUC': 'Bucaramanga AM',
+        'CBUC': 'Bucaramanga AM',
+        'CCLI': 'Cali AM',
+        'CLI': 'Cali AM',
+        'CAR': 'Cartagena AM',
+        'CCAR': 'Cartagena AM',
+        'AMC': 'Cucuta AM',
+        'CCUC': 'Cucuta AM',
+        'CUC': 'Cucuta AM',
+        'CMAN': 'Manizales AM',
+        'MAN': 'Manizales AM',
+        'AMA': 'Medellin AM',
+        'CMED': 'Medellin AM',
+        'MED': 'Medellin AM',
+        'CPER': 'Pereira AM',
+        'CRI': 'Pereira AM',
+        'PER': 'Pereira AM',
+        'AMV': 'Valledupar AM',
+        'CVDP': 'Valledupar AM',
+        'VDP': 'Valledupar AM'
+        }
+    
+    identificador_ciudad = cell_name.split()[0]  # Asume que el identificador de ciudad es la primera palabra
+    return areas_metropolitanas.get(identificador_ciudad, 'Sin AM')
     
 def query_geodata(): # Función para hacer query desde la base de datos de info geográfica
 
@@ -230,6 +279,13 @@ def query_to_df(seleccion, geo_agregacion, start_date, end_date):
                     AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
             columnas = ["Timestamp","municipio_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
 
+        elif geo_agregacion == "AM":
+            cur.execute("""SELECT "Timestamp","am_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
+                    FROM "ran_1h_am" 
+                    WHERE "am_name" = %s
+                    AND DATE("Timestamp") BETWEEN %s AND %s""", (seleccion, start_date, end_date))
+            columnas = ["Timestamp","am_name","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)"]
+
         elif geo_agregacion == "departamento":
             cur.execute("""SELECT "Timestamp","dpto_dane_code","L.Traffic.ActiveUser.DL.Avg","L.Traffic.ActiveUser.DL.Max","L.ChMeas.PRB.DL.Avail","L.ChMeas.PRB.DL.Used.Avg","L.ChMeas.PRB.UL.Avail","L.ChMeas.PRB.UL.Used.Avg","L.Thrp.bits.DL(bit)","L.Thrp.bits.DL.LastTTI(bit)","L.Thrp.Time.DL.RmvLastTTI(ms)" 
                     FROM "ran_1h_departamento" 
@@ -279,6 +335,7 @@ def map_query(start_date, end_date, kpi, geo_agg, name_column):
         'cluster': 'ran_1h_cluster',
         'localidad': 'ran_1h_localidad',
         'municipio': 'ran_1h_municipio',
+        'AM': 'ran_1h_am',
         'departamento': 'ran_1h_departamento',
         'regional': 'ran_1h_regional',
         'total': 'ran_1h_total'
@@ -399,6 +456,7 @@ df_geo["dwh_cell_name_wom"] = np.where(df_geo["dwh_banda"] == "B4", # Cuando se 
 df_geo = df_geo.drop_duplicates(subset=["dwh_cell_name_wom"]) # Elimino los nombres exactamente iguales
 df_geo["sector"] = df_geo["dwh_sector"].apply(lambda x: 1 if x in [1,4,7] else (2 if x in [2,5,8] else (3 if x in [3,6,9] else 4))) # Creación de columna "sector" para logica de agregación por sectores. Se agrupa según el id de sector
 df_geo["sector_name"] = df_geo["node_name"] + ": " + df_geo["sector"].astype(str)
+df_geo['AM'] = df_geo['dwh_cell_name_wom'].apply(area_metro) # Función para columna de area metropolitana
 
 # Lectura de archivo que contiene las localidades
 localidades = gpd.read_file("Localidades Crowdsourcing 2023/Crowdwourcing 2023/Localidades Finales mayo 18 v2.TAB")
@@ -408,6 +466,9 @@ clusters = gpd.read_file("Clusterizacion.geojson")
 
 # Leer el archivo GeoJSON de municipios con Geopandas
 municipios = gpd.read_file("co_2018_MGN_MPIO_POLITICO.geojson")
+
+# Leer el archivo GeoJSON de areas metropolitanas con Geopandas
+areas_metro = gpd.read_file("AreasMetro.geojson")
 
 # Leer el archivo GeoJSON de departamentos con Geopandas
 departamentos = gpd.read_file("co_2018_MGN_DPTO_POLITICO.geojson")
@@ -446,6 +507,7 @@ app.layout = dbc.Container([
                                         {"label": "Cluster", "value": "cluster"},
                                         {"label": "Localidad", "value": "localidad"},
                                         {"label": "Municipio", "value": "municipio"},
+                                        {"label": "Área Metropolitana", "value": "AM"},
                                         {"label": "Departamento", "value": "departamento"},
                                         {"label": "Regional", "value": "regional"},
                                         {"label": "Total", "value": "total"}],
@@ -687,6 +749,14 @@ def update_map(input):
                         custom_data="MPIO_CCNCT"
                         )
         
+    elif input == "AM":
+        fig = px.choropleth_mapbox(areas_metro, geojson=areas_metro.geometry, locations=areas_metro.index,
+                        zoom=map_layout["zoom"], center=map_layout["center"],
+                        opacity=0.5,
+                        hover_name="AM",
+                        custom_data="AM"
+                        )
+        
     elif input == "departamento":
         fig = px.choropleth_mapbox(departamentos, geojson=departamentos.geometry, locations=departamentos.index,
                         zoom=map_layout["zoom"], center=map_layout["center"],
@@ -751,23 +821,36 @@ def update_dropdown(input):
         options = [{'label': i, 'value': i} for i in options_df]
     
     elif input == "localidad":
-        options_df = df_geo[["dwh_localidad", "dwh_dane_cod_localidad", "dane_nombre_mpio"]].drop_duplicates(subset=["dwh_dane_cod_localidad"]).copy() # Copia solo columnas requeridas
+        options_df = df_geo[["dwh_localidad", "dwh_dane_cod_localidad", "dane_nombre_mpio", "dane_code"]].copy() # Copia solo columnas requeridas
         options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
+
+        filas_correctas = options_df.apply(comprobacion_localidad, axis=1) # Aplicar función para comprobar localidades a cada fila del df
+        options_df = options_df[filas_correctas] # Filtrar filas con códigos de localidad correctas
+        options_df = options_df.drop_duplicates(subset=["dwh_dane_cod_localidad"])
+
         options_df["CoLoc"] = options_df["dane_nombre_mpio"] + ": " + options_df["dwh_localidad"] + " " + options_df["dwh_dane_cod_localidad"].astype(str) # Nueva columna con nombre único de localidad
         options_df = options_df.sort_values(by=["CoLoc"]) # Organizo por nombre único
         options = [{'label': row["CoLoc"], 'value': row["dwh_dane_cod_localidad"]} for index, row in options_df.iterrows()]
 
     elif input == "municipio":
         # Tomo código DANE porque a partir del código es que funciona la lógica de los municipios
-        options_df = df_geo[["dane_code","dane_nombre_mpio"]].drop_duplicates(subset=["dane_code"]).copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
+        options_df = df_geo[["dane_code","dane_nombre_mpio"]].copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
         options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
+        options_df = options_df.drop_duplicates(subset=["dane_code"]) # Elimino duplicados
         options_df["CoMpo"] = options_df["dane_nombre_mpio"] + " " + options_df["dane_code"].apply(str) # Sumo nombre de municipio con código para poder generar las opciones
         options_df = options_df.sort_values(by=["CoMpo"]) # Organizo por nombre único
         options = [{'label': row["CoMpo"], 'value': row["dane_code"]} for index, row in options_df.iterrows()]
 
+    elif input == "AM":
+        options_df = df_geo["AM"].drop_duplicates().copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
+        options_df = options_df[options_df != "Sin AM"] # Mantener filas donde el valor de la columna AM sea diferente a "Sin AM"
+        options_df = options_df.dropna().sort_values()
+        options = [{'label': i, 'value': i} for i in options_df]
+
     elif input == "departamento":
-        options_df = df_geo[["dane_code_dpto","dane_nombre_dpt"]].drop_duplicates(subset=["dane_code_dpto"]).copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
+        options_df = df_geo[["dane_code_dpto","dane_nombre_dpt"]].copy() # El parametro dentro de .drop_duplicates es para que considere solo las filas duplicadas según el código
         options_df = options_df.dropna() # Elimino filas que contenga algun valor nulo
+        options_df = options_df.drop_duplicates(subset=["dane_code_dpto"]) # Elimino duplicados
         options_df["CoDpto"] = options_df["dane_nombre_dpt"] + " " + options_df["dane_code_dpto"].apply(str) # Sumo nombre de municipio con código para poder generar las opciones
         options_df = options_df.sort_values(by=["CoDpto"]) # Organizo
         options = [{'label': row["CoDpto"], 'value': row["dane_code_dpto"]} for index, row in options_df.iterrows()]
@@ -849,14 +932,24 @@ def make_zoom(input, agg):
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "localidad":
         zoom = 12
-        auxdf = df_geo[["node_name","dwh_dane_cod_localidad","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
+        auxdf = df_geo[["node_name","dwh_dane_cod_localidad","dwh_latitud","dwh_longitud","dane_code"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dwh_dane_cod_localidad"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
+
+        filas_correctas = auxdf.apply(comprobacion_localidad, axis=1) # Aplicar función para comprobar localidades a cada fila del df
+        auxdf = auxdf[filas_correctas] # Filtrar filas con códigos de localidad correctas
+
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "municipio":
         zoom = 10
         auxdf = df_geo[["dane_code","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
         auxdf = auxdf[auxdf["dane_code"] == to_int(input)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
+        lat_mean = auxdf["dwh_latitud"].astype(float).mean()
+        lon_mean = auxdf["dwh_longitud"].astype(float).mean()
+    elif agg == "AM":
+        zoom = 10
+        auxdf = df_geo[["AM","dwh_latitud","dwh_longitud"]].copy() # Genero copia del df
+        auxdf = auxdf[auxdf["AM"] == input] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
         lat_mean = auxdf["dwh_latitud"].astype(float).mean()
         lon_mean = auxdf["dwh_longitud"].astype(float).mean()
     elif agg == "departamento":
@@ -1135,6 +1228,7 @@ def map_kpi(boton, kpi, agg, date):
         'cluster': 'cluster_name',
         'localidad': 'localidad_dane_code',
         'municipio': 'municipio_dane_code',
+        'AM': 'am_name',
         'departamento': 'dpto_dane_code',
         'regional': 'regional_name',
         'total': None  # No hay columna específica para 'total'
@@ -1243,11 +1337,11 @@ def map_kpi(boton, kpi, agg, date):
     
     elif agg == "localidad":
         # print("Localidades:\n",localidades)
-        localidades.info(verbose=True)
+        # localidades.info(verbose=True)
         localidades["Localidad"] = localidades["Localidad"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = localidades.merge(bh_df, how="left", left_on="Localidad", right_on="localidad_dane_code")
         # print("merge localidaes:\n", df_merged)
-        fig = px.choropleth_mapbox(df_merged, geojson=localidades.geometry, locations=localidades.index,
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    zoom=map_layout["zoom"], center=map_layout["center"],
                                    opacity=0.5,
@@ -1258,11 +1352,11 @@ def map_kpi(boton, kpi, agg, date):
     
     elif agg == "municipio":
         # print("Muns:\n",municipios)
-        municipios.info(verbose=True)
+        # municipios.info(verbose=True)
         municipios["MPIO_CCNCT"] = municipios["MPIO_CCNCT"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = municipios.merge(bh_df, how="left", left_on="MPIO_CCNCT", right_on="municipio_dane_code")
         # print("merge muns:\n", df_merged)
-        fig = px.choropleth_mapbox(df_merged, geojson=municipios.geometry, locations=municipios.index,
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    zoom=map_layout["zoom"], center=map_layout["center"],
                                    opacity=0.5,
@@ -1270,14 +1364,25 @@ def map_kpi(boton, kpi, agg, date):
                                    hover_data="MPIO_CCNCT",
                                    custom_data="MPIO_CCNCT"
                                    )
+    
+    elif agg == "AM":
+        # print("bh_df area metro:\n", bh_df)
+        df_merged = areas_metro.merge(bh_df, how="left", left_on="AM", right_on="am_name")
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
+                                   color=graph_column,
+                                   zoom=map_layout["zoom"], center=map_layout["center"],
+                                   opacity=0.5,
+                                   hover_name="AM",
+                                   custom_data="AM"
+                                   )
         
     elif agg == "departamento":
         # print("dptos:\n",departamentos)
-        departamentos.info(verbose=True)
+        # departamentos.info(verbose=True)
         departamentos["DPTO_CCDGO"] = departamentos["DPTO_CCDGO"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = departamentos.merge(bh_df, how="left", left_on="DPTO_CCDGO", right_on="dpto_dane_code")
         # print("merge dptos:\n", df_merged)
-        fig = px.choropleth_mapbox(df_merged, geojson=departamentos.geometry, locations=departamentos.index,
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    zoom=map_layout["zoom"], center=map_layout["center"],
                                    opacity=0.5,
@@ -1290,7 +1395,7 @@ def map_kpi(boton, kpi, agg, date):
         # print("Regional:\n",regionales)
         df_merged = regionales.merge(bh_df, how="left", left_on="DPTO_REGIONAL", right_on="regional_name")
         # print("merge regional:\n", df_merged)
-        fig = px.choropleth_mapbox(df_merged, geojson=regionales.geometry, locations=regionales.index,
+        fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    zoom=map_layout["zoom"], center=map_layout["center"],
                                    opacity=0.5,

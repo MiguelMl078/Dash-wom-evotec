@@ -1083,4 +1083,4 @@ def download_graph_data(boton, seleccion, traff, uexp, bh, prb):
     return dcc.send_data_frame(df.to_csv, "graph_data.csv")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8050)

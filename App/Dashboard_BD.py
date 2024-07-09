@@ -234,10 +234,6 @@ app.layout = dbc.Container([ # El layout sigue un estilo html
                         dbc.Label("Tiempo"),
                         dcc.DatePickerRange(id="time",
                                             display_format='YYYY-MM-DD',
-                                            # start_date_placeholder_text="Seleccione",
-                                            # end_date=(datetime.today() - timedelta(days=1)).strftime("%Y-%m-%d"), # strftime convierte a string con el formato definido como parametro
-                                            # start_date=(datetime.today() - timedelta(days=31)).strftime("%Y-%m-%d") # strftime convierte a string con el formato definido como parametro
-                                            # min_date_allowed=date(2021, 1, 1),
                                 )
                     ], width=6),
                     dbc.Col([
@@ -298,12 +294,11 @@ app.layout = dbc.Container([ # El layout sigue un estilo html
 
     dbc.Row([
         dbc.Col([
-            dbc.Card([
+            dbc.Card([ # dcc.Loadingo para que cargue mientras un callback está actualizando su estado
                 dcc.Loading([dcc.Graph(id="map", # Si no le pongo los corchetes el mapa no ocupa todo su espacio destinado
                                       style={"height": "100%"}
                                       )], color=MORADO_WOM, type="circle",
                                       overlay_style={"visibility":"hidden", "height":"100%"}) # Para que mientras cargue se ponga borroso y se ajuste al tamaño de la tarjeta
-                # dcc.Graph(id="map", style={"height": "100%"})
             ], style={"height": "100%"})
         ], width=6, style={"height": "100%"}),
         dbc.Col([
@@ -390,120 +385,6 @@ def update_date_range(_):
     return start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d") # strftime convierte a string con el formato definido como parametro
 
 
-
-# Callback para actualizar la capa del mapa según la agregación que desee ver el usuario
-# @callback(
-#     Output(component_id='map', component_property='figure'),
-
-#     Input(component_id="aggregation", component_property='value'),
-# )
-def update_map(input):
-
-    # px.set_mapbox_access_token("pk.eyJ1IjoicmFjdWVydm8iLCJhIjoiY2x2ZDBmcGF6MG92ejJpbTlyN3Q4d2tndyJ9.PFbAy_UzSktBPGnS23pU9A") # Mi public acces token de Mapbox
-    
-    # Definir las configuraciones de zoom y centro del mapa una vez
-    map_layout = dict(zoom=5, center={"lat": 4.6837, "lon": -74.0566})
-    # try:
-    if input == "celda":
-        fig = px.scatter_mapbox(df_geo, lat="dwh_latitud", lon="dwh_longitud",
-                                zoom=map_layout["zoom"], center=map_layout["center"],
-                                hover_name="dwh_cell_name_wom",
-                                custom_data="dwh_cell_name_wom"
-                            )
-        #fig.update_traces(cluster=dict(enabled=True))
-    
-    elif input == "sector":
-        sectores = df_geo.drop_duplicates(subset=["sector_name"]).copy() # Copia del df eliminando sectores iguales
-        fig = px.scatter_mapbox(sectores, lat="dwh_latitud", lon="dwh_longitud",
-                                # color="sector",
-                                zoom=map_layout["zoom"], center=map_layout["center"],
-                                hover_name="sector_name",
-                                custom_data="sector_name"
-                            )
-
-    elif input == "EB":
-        aux_df = df_geo.drop_duplicates(subset=["node_name"]).copy()
-        fig = px.scatter_mapbox(aux_df, lat="dwh_latitud", lon="dwh_longitud",
-                                zoom=map_layout["zoom"], center=map_layout["center"],
-                                hover_name="node_name",
-                                custom_data="node_name"
-                            )
-        # # Habilita la clusterización de puntos agregando una nueva capa de datos de tipo 'scattermapbox'
-        # fig.add_scattermapbox(lat=aux_df['dwh_latitud'], lon=aux_df['dwh_longitud'], mode='markers', marker={'size': 10})
-
-        # # Actualiza las propiedades de la figura para habilitar la clusterización
-        # fig.update_traces(marker=dict(size=10), selector=dict(type='scattermapbox'))
-
-    elif input == "cluster":
-        fig = px.choropleth_mapbox(clusters, geojson=clusters.geometry, locations=clusters.index,
-                        # color='Traf_Data_Act',
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5,
-                        hover_name="key",
-                        custom_data="key"
-                        )
-    
-    elif input == "localidad":
-        fig = px.choropleth_mapbox(localidades, geojson=localidades.geometry, locations=localidades.index,
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5,
-                        hover_name="Nombre_localidad",
-                        hover_data="Localidad",
-                        custom_data="Localidad"
-                        )
-    
-    elif input == "municipio":
-        fig = px.choropleth_mapbox(municipios, geojson=municipios.geometry, locations=municipios.index,
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5,
-                        hover_name="MPIO_CNMBR",
-                        hover_data="MPIO_CCNCT",
-                        custom_data="MPIO_CCNCT"
-                        )
-        
-    elif input == "AM":
-        fig = px.choropleth_mapbox(areas_metro, geojson=areas_metro.geometry, locations=areas_metro.index,
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5,
-                        hover_name="AM",
-                        custom_data="AM"
-                        )
-        
-    elif input == "departamento":
-        size = len(departamentos) # Obtener tamaño del dataframe
-        color = np.full(size, MORADO_WOM) # Crear arreglo constante del mismo tamaño
-        fig = px.choropleth_mapbox(departamentos, geojson=departamentos.geometry, locations=departamentos.index,
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5, color=color,
-                        hover_name="DPTO_CNMBR",
-                        hover_data="DPTO_CCDGO",
-                        custom_data="DPTO_CCDGO"
-                        )
-    
-    elif input == "regional":
-        fig = px.choropleth_mapbox(regionales, geojson=regionales.geometry, locations=regionales.index,
-                        zoom=map_layout["zoom"], center=map_layout["center"],
-                        opacity=0.5,
-                        hover_name="DPTO_REGIONAL",
-                        custom_data="DPTO_REGIONAL"
-                        )
-
-    elif input == "total":
-        data = {}
-        fig = px.scatter_mapbox(data, 
-                                zoom=map_layout["zoom"], center=map_layout["center"]
-                                )
-    
-    else:
-        raise PreventUpdate
-
-    fig.update_layout(mapbox_style="carto-positron",
-                    margin={"r":0,"t":0,"l":0,"b":0},
-                    )
-    
-
-
-    return fig
 
 # Callback para poner en blanco los gráficos con el cambio de agregación
 @callback(
@@ -611,10 +492,6 @@ def make_selection(input):
     print(input)
     selected = input['points'][0]["customdata"][0] # Accedo a la información que mandé en el mapa
 
-    # if selected.isdigit(): # Si el valor es completamente compuesto de dígitos
-    #     return to_int(selected) # Retorno como entero
-    # else:
-    #     return selected
     return selected
 
 
@@ -630,11 +507,6 @@ def make_zoom(input, agg):
     print("Input en función makezooom: ", input)
     if input is None:
         raise PreventUpdate # No modifica ninguna salida
-    
-    # auxdf = auxdf[auxdf.eq(input).any(axis=1)] # En el df busco la celda que concuerde con el valor del dropdown y guardo todas las filas
-    # print(auxdf)
-    # lat_mean = auxdf["dwh_latitud"].astype(float).mean()
-    # lon_mean = auxdf["dwh_longitud"].astype(float).mean()
 
     zoom = 14
     # # Coordenadas Ecotek
@@ -702,8 +574,6 @@ def make_zoom(input, agg):
     if auxdf.empty:
         raise PreventUpdate # No modifica ninguna salida si no encuentra coincidencias
     
-    # print(f"lat mean: {lat_mean}")
-    # print(f"lon mean: {lon_mean}")
     patched_figure = Patch() # Patch para actualizar el atributo de una figura sin tener que crear la de nuevos
     patched_figure['layout']['mapbox']['zoom'] = zoom # Ruta para modificar el zoom
     patched_figure['layout']['mapbox']['center']['lat'] = lat_mean # Ruta para modificar atributo de latitud
@@ -765,18 +635,11 @@ def download_report(boton, start_date, end_date):
 
 #------------------------------------------ FUNCIONES CALLBACK GENERACIÓN DE GRÁFICOS ----------------------------------------------------------#
     
-# def filtrado(cells, df):
-#     cells = cells["dwh_cell_name_wom"] # Extraigo solo los nombre porque es lo único que necesito
-#     data = df[df["Cell_name"].str.upper().isin(cells)].copy() # Genero copia del df de datos unicamente de las celdas cuyo nombre está en el df extraido anteriormente
-#     return data
 
 def bh(data, column): # Calculo BH(hora pico) por día
-    # datos_avg = data.groupby("Timestamp")[column].sum().reset_index() # df con average data sumada por hora
-    # print("datos_avg:\n", datos_avg)
     data = data.copy()
     bh_day = data.groupby(data['Timestamp'].dt.date)[column].idxmax() # Agrupo los datos por fecha y luego encuentro los indices que contienen los valores de tráfico maximos (BH)
     bh_df = data.loc[bh_day, ['Timestamp', column]] # Creo un nuevo df con las horas pico por día y unicamente con las columnas de tiempo y tráfico
-    # print("bh_df:\n", bh_df)
 
     return bh_df
 
@@ -796,24 +659,10 @@ def graph_BH(bh_df_avg, bh_df_max):
 def PRB_usg(data, bh_df):
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
     prb_df = data[["Timestamp", "L.ChMeas.PRB.DL.Avail", "L.ChMeas.PRB.DL.Used.Avg", "L.ChMeas.PRB.UL.Avail", "L.ChMeas.PRB.UL.Used.Avg"]] # Solo columnas necesarias
-    # print("PRB OCCUP raw:\n",prb_df)
-    # print("Las sumatorias")
-    # print(data.groupby("Timestamp")["L.ChMeas.PRB.DL.Used.Avg"].sum().reset_index())
-    # print(data.groupby("Timestamp")["L.ChMeas.PRB.DL.Avail"].sum().reset_index())
-
-    # Agrupa los datos por Timestamp y suma los valores de PRBs utilizados y disponibles en Downlink y Uplink
-    # prb_df = data.groupby("Timestamp").agg({
-    #     "L.ChMeas.PRB.DL.Used.Avg": "sum",  # Suma de PRBs utilizados en Downlink
-    #     "L.ChMeas.PRB.DL.Avail": "sum",     # Suma de PRBs disponibles en Downlink
-    #     "L.ChMeas.PRB.UL.Used.Avg": "sum",  # Suma de PRBs utilizados en Uplink
-    #     "L.ChMeas.PRB.UL.Avail": "sum"      # Suma de PRBs disponibles en Uplink
-    # }).reset_index()
     prb_df = prb_df.reset_index(drop=True)
-    # print("PRB USG before:\n", prb_df)
 
     prb_df["DL_PRB_usage"] = (prb_df["L.ChMeas.PRB.DL.Used.Avg"] / prb_df["L.ChMeas.PRB.DL.Avail"]) * 100 # Cálculo de % ocupación en downlink y guardado en nueva columna
     prb_df["UL_PRB_usage"] = (prb_df["L.ChMeas.PRB.UL.Used.Avg"] / prb_df["L.ChMeas.PRB.UL.Avail"]) * 100 # # Cálculo de % ocupación en uplink y guardado en nueva columna
-    # print("PRB USG apres:\n", prb_df)
 
     return prb_df
 
@@ -828,28 +677,20 @@ def graph_prb(prb_df):
     return fig_prb
 
 def traffic(data, bh_df):
-    # fig_trff = go.Figure() # Crea una figura vacía
     trff_df = data.copy()
-    # print("SUM:")
-    # print(trff_avg_df)
+
     trff_avg_df = trff_df.groupby(trff_df["Timestamp"].dt.date)["L.Thrp.bits.DL(bit)"].mean().reset_index() # Promedio del tráfico de cada hora del día
     trff_avg_df["L.Thrp.bits.DL(bit)"] = trff_avg_df["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversion de bit a GB
-    # print("AVG:")
-    # print(trff_df)
-    # fig_trff.add_trace(go.Scatter(x=trff_df["Timestamp"], y=trff_df["L.Thrp.bits.DL(bit)"], mode='lines', name='Traffic')) # Añado linea de tráfico al día
+
     trff_sum_df = trff_df.groupby(trff_df["Timestamp"].dt.date)["L.Thrp.bits.DL(bit)"].sum().reset_index() # Suma del tráfico de cada hora del día
     trff_sum_df["L.Thrp.bits.DL(bit)"] = trff_sum_df["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversion de bit a GB
+
     # Calculo de tráfico en BH
     trff_bh = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy() # Genero copia del df de datos unicamente de las casillas dentro del BH
     trff_bh = trff_bh[["Timestamp", "L.Thrp.bits.DL(bit)"]] # Solo columnas necesarias
     trff_bh["L.Thrp.bits.DL(bit)_BH"] = trff_bh["L.Thrp.bits.DL(bit)"].apply(bit_to_GB) # Conversión de bit a GB
-    # print("Traffic BH:")
-    # print(trff_bh)
-    # trff_bh = trff_bh.groupby("Timestamp")["L.Thrp.bits.DL(bit)_BH"].sum().reset_index() # df con max data sumada
     trff_bh = trff_bh.reset_index(drop=True) # Reiniciar indices sin insertar indices antiguos en columna nueva
-    # print("POST suma:")
-    # print(trff_bh)
-    # fig_trff.add_trace(go.Scatter(x=trff_bh["Timestamp"], y=trff_bh["L.Thrp.bits.DL(bit)_BH"], mode='lines', name='Traffic_BH')) # Agrega la segunda línea a la misma figura
+
     return trff_avg_df, trff_sum_df, trff_bh
 
 def graph_trff(trff_avg_df, trff_sum_df, trff_bh):
@@ -860,21 +701,12 @@ def graph_trff(trff_avg_df, trff_sum_df, trff_bh):
     return fig_trff
 
 def user_exp(data, bh_df):
-    # fig_uexp = go.Figure() # Crea una figura vacía
     data = data[data["Timestamp"].isin(bh_df["Timestamp"])].copy()
     user_exp_df = data[["Timestamp","L.Thrp.bits.DL(bit)", "L.Thrp.bits.DL.LastTTI(bit)", "L.Thrp.Time.DL.RmvLastTTI(ms)"]] # Solo columnas necesarias
 
-    # Agrupa los datos por Timestamp y suma los valores de columnas que hacen parte de la ecuación
-    # user_exp_df = data.groupby("Timestamp").agg({
-    #     "L.Thrp.bits.DL(bit)": "sum",  # Suma throughput en DL
-    #     "L.Thrp.bits.DL.LastTTI(bit)": "sum",     # Suma de variable para el cálculo
-    #     "L.Thrp.Time.DL.RmvLastTTI(ms)": "sum",  # Suma de variable para el cálculo
-    # }).reset_index()
-    # print(prb_df)
     user_exp_df = user_exp_df.reset_index(drop=True)
     user_exp_df["User_Exp"] = ((user_exp_df["L.Thrp.bits.DL(bit)"]-user_exp_df["L.Thrp.bits.DL.LastTTI(bit)"]) / (user_exp_df["L.Thrp.Time.DL.RmvLastTTI(ms)"])) / 1024 # Calculo user experience
     
-    # fig_uexp = px.line(user_exp_df, x="Timestamp", y="User_Exp", title="User Experience in BH")
     return user_exp_df
     
 def convert_timestamp(timestamp_str):
@@ -964,23 +796,16 @@ def query_to_df(seleccion, geo_agregacion, start_date, end_date):
         rows = cur.fetchall()
         df = pd.DataFrame(rows, columns=columnas)
         df = df.sort_values(by="Timestamp")
-        # print("df from query:\n",df)
-        # Verificar el tipo de datos de la segunda columna
-        # if df.iloc[:, 1].dtype == 'object':  # Verificar si es un objeto (que generalmente significa que es texto)
-        #     df.iloc[:, 1] = df.iloc[:, 1].str.upper() # Convertir los valores de la segunda columna a mayúsculas
-        # else:
-        #     pass
-        
-        # print("df postfunction:\n", df)
+        cur.close()
+
         return df
     
     except Exception as e:
-        print("Error al conectar con la base de datos: ", e)
+        print("Error al obtener información de la selección: ", e)
         return pd.DataFrame()
     
     finally:
-        cur.close()
-        conn.close()
+        conn.close() # Siempre se va a cerrar la conexión sin importar si hubo excepción o no. Buena práctica por si hay un error
 
 # Callback para gráficar la selección del usuario a partir de la agregación
 @callback(
@@ -1000,8 +825,6 @@ def query_to_df(seleccion, geo_agregacion, start_date, end_date):
         State(component_id="time", component_property='start_date'),
         State(component_id="time", component_property='end_date'),
 
-        # prevent_initial_call=True, # Evitar el primer llamado automatico que hace dash
-
         running=[(Output(component_id='solicitar', component_property='disabled'), True, False)] # Mientras el callback esté corriendo desactiva el botón
 )
 def update_graphs(boton, geo_agg, selected_cell, time_agg, start_date, end_date):
@@ -1019,14 +842,6 @@ def update_graphs(boton, geo_agg, selected_cell, time_agg, start_date, end_date)
         container = "Por favor haz una selección"
         return container, no_update, no_update, no_update, no_update, no_update, no_update # Solo se actualiza la salida de texto, el resto se queda igual
 
-    print("selección función graphs: ", selected_cell)
-    # print(type(selected_cell))
-    print("Geo_Agg: ", geo_agg)
-    print("Time agg: ", time_agg)
-    # Convertir las fechas de inicio y fin a formato datetime
-    print("Start date: ", start_date)
-    print("End date: ", end_date)
-    # print("tipo fecha: ", type(end_date))
     container = f"Su selección es: {selected_cell} en el rango de fechas {start_date} -> {end_date}"
 
     data = query_to_df(selected_cell, geo_agg, start_date, end_date) # Función que hace la consulta a la base de datos
@@ -1068,44 +883,34 @@ def update_graphs(boton, geo_agg, selected_cell, time_agg, start_date, end_date)
 
         # Calculo BH(hora pico) por día
         bh_df = bh(data, "L.Traffic.ActiveUser.DL.Avg")
-        # print("BH despues de primera función:\n", bh_df)
         bh_df_max = bh(data, "L.Traffic.ActiveUser.DL.Max")
-        # fig_bh = graph_BH(bh_df, bh_df_max)
-        # print("BH despues de graficar:\n", bh_df)
 
         # Calculo ocupación PRBs
         prb_df = PRB_usg(data, bh_df)
-        # print("PRB usage:\n", prb_df)
-        # fig_prb = px.line(prb_df, x="Timestamp", y=["DL_PRB_usage","UL_PRB_usage"], title="PRB usage in BH")
-        # fig_prb = graph_prb(prb_df)
         gauge_value = prb_df["DL_PRB_usage"].mean() # Se saca el promedio de ocupación de PRBs de todos los días calculados
-        # print("gauge value: ", gauge_value)
 
         # Calculo y grafica de tráfico
         trff_avg_df, trff_sum_df, trff_bh = traffic(data, bh_df)
-        # fig_trff = graph_trff(trff_avg_df, trff_bh)
 
         # Calculo y gráfica de experiencia de usuario
         user_exp_df = user_exp(data, bh_df)
-        # fig_uexp = go.Figure(data=go.Scatter(x=user_exp_df["Timestamp"], y=user_exp_df["User_Exp"], mode="lines", name="U_exp"))
 
         if time_agg == "semana":
             # BH(Hora pico)
-            # print("bh_df antes de agrupar semana avg:\n", bh_df)
             # Agrupar los datos por semana y calcular los promedios
             agg_bh_df = bh_df.resample('W-Mon', on='Timestamp').mean().reset_index() # W-Mon significa que la semana empieza el lunes
-            # print("bh_df despues de agrupar semana avg:\n", agg_bh_df)
-            # print("bh_df antes de agrupar semana max:\n", bh_df_max)
             agg_bh_df_max = bh_df_max.resample('W-Mon', on='Timestamp').mean().reset_index()
-            # print("bh_df despues de agrupar semana max:\n", agg_bh_df_max)
+
             fig_bh = go.Figure() # Crea una figura vacía
             fig_bh.add_trace(go.Bar(x=agg_bh_df["Timestamp"], y=agg_bh_df["L.Traffic.ActiveUser.DL.Avg"], name="Avg", marker=dict(color=MORADO_WOM)))
             fig_bh.add_trace(go.Bar(x=agg_bh_df_max["Timestamp"], y=agg_bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max", marker=dict(color=MORADO_CLARO)))
-            print("BH semana agregada")
+            print("Usuarios semana agregado")
+
             # Ocupación PRB
             agg_prb_df = prb_df.resample('W-Mon', on='Timestamp').mean().reset_index()
             fig_prb = graph_prb(agg_prb_df)
-            print("PRB semana agregada")
+            print("Ocupacion PRB semana agregado")
+
             # Trafico
             trff_avg_df["Timestamp"] = pd.to_datetime(trff_avg_df['Timestamp']) # Convierto a timestamp de nuevo porque me estaba generando un error
             trff_sum_df["Timestamp"] = pd.to_datetime(trff_sum_df['Timestamp'])
@@ -1113,40 +918,45 @@ def update_graphs(boton, geo_agg, selected_cell, time_agg, start_date, end_date)
             agg_trff_sum_df = trff_sum_df.resample('W-Mon', on='Timestamp').sum().reset_index()
             agg_trff_df_bh = trff_bh.resample('W-Mon', on='Timestamp').mean().reset_index()
             fig_trff = graph_trff(agg_trff_df, agg_trff_sum_df, agg_trff_df_bh)
+            print("Trafico semana agregado")
 
             # User experience
             agg_uexp_df = user_exp_df.resample('W-Mon', on='Timestamp').mean().reset_index()
             fig_uexp = go.Figure(data=go.Scatter(x=agg_uexp_df["Timestamp"], y=agg_uexp_df["User_Exp"], mode="lines", name="U_exp"))
-            print("uexp semana agregada")
+            print("User experience semana agregado")
+
         elif time_agg == "mes":
             # BH(Hora pico)
-            # print("bh_df antes de agrupar semana avg:\n", bh_df)
             # Agrupar los datos por semana y calcular los promedios
             agg_bh_df = bh_df.resample('MS', on='Timestamp').mean().reset_index() # MS significa inicio de mes (calendar month begin)
-            # print("bh_df despues de agrupar semana avg:\n", agg_bh_df)
-            # print("bh_df antes de agrupar semana max:\n", bh_df_max)
             agg_bh_df_max = bh_df_max.resample('MS', on='Timestamp').mean().reset_index()
-            # print("bh_df despues de agrupar semana max:\n", agg_bh_df_max)
+
             fig_bh = go.Figure() # Crea una figura vacía
             fig_bh.add_trace(go.Bar(x=agg_bh_df["Timestamp"], y=agg_bh_df["L.Traffic.ActiveUser.DL.Avg"], name="Avg", marker=dict(color=MORADO_WOM)))
             fig_bh.add_trace(go.Bar(x=agg_bh_df_max["Timestamp"], y=agg_bh_df_max["L.Traffic.ActiveUser.DL.Max"], name="Max", marker=dict(color=MORADO_CLARO)))
-            print("BH semana agregada")
+            print("Usuarios mes agregado")
+
             # Ocupación PRB
             agg_prb_df = prb_df.resample('MS', on='Timestamp').mean().reset_index()
+
             fig_prb = graph_prb(agg_prb_df)
-            print("PRB semana agregada")
+            print("Ocupacion PRB mes agregado")
+            
             # Trafico
             trff_avg_df["Timestamp"] = pd.to_datetime(trff_avg_df['Timestamp']) # Convierto a timestamp de nuevo porque me estaba generando un error
             trff_sum_df["Timestamp"] = pd.to_datetime(trff_sum_df['Timestamp'])
             agg_trff_df = trff_avg_df.resample('MS', on='Timestamp').mean().reset_index()
             agg_trff_sum_df = trff_sum_df.resample('MS', on='Timestamp').sum().reset_index()
             agg_trff_df_bh = trff_bh.resample('MS', on='Timestamp').mean().reset_index()
+
             fig_trff = graph_trff(agg_trff_df, agg_trff_sum_df, agg_trff_df_bh)
+            print("Trafico mes agregado")
 
             # User experience
             agg_uexp_df = user_exp_df.resample('MS', on='Timestamp').mean().reset_index()
+
             fig_uexp = go.Figure(data=go.Scatter(x=agg_uexp_df["Timestamp"], y=agg_uexp_df["User_Exp"], mode="lines", name="U_exp"))
-            print("uexp semana agregada")
+            print("User experience mes agregado")
 
         else:
             # Gráficas por día
@@ -1211,7 +1021,7 @@ def update_graphs(boton, geo_agg, selected_cell, time_agg, start_date, end_date)
                             #   , yanchor="bottom", y=1.02, xanchor="right", x=1
                               ))
     
-    fig_fullscreen = go.Figure(data=[go.Scatter(x=[], y=[])]) # Figura vacia
+    fig_fullscreen = go.Figure(data=[go.Scatter(x=[], y=[])]) # Figura fullscreen queda vacia cada vez que se haga una selección
 
     return container, gauge_value, fig_trff, fig_uexp, fig_bh, fig_prb, fig_fullscreen
 
@@ -1302,6 +1112,7 @@ def map_query(start_date, end_date, kpi, geo_agg, name_column):
         
         df = pd.DataFrame(rows, columns=columns)
         df = df.sort_values(by="Timestamp")
+        cur.close() # Se cierra el cursor
         print("Se ha creado el dataframe de la consulta para mostrar el KPI")
 
         return df
@@ -1311,7 +1122,6 @@ def map_query(start_date, end_date, kpi, geo_agg, name_column):
         return pd.DataFrame()
     
     finally:
-        cur.close()
         conn.close()
 
 # Callback para visualizar KPIs sobre el mapa
@@ -1328,8 +1138,6 @@ def map_query(start_date, end_date, kpi, geo_agg, name_column):
         # prevent_initial_call=True # Para que no me genere la alerta de salida duplicada
 )
 def map_kpi(boton, agg, kpi, start_date, end_date):
-    # if boton is None:
-    #     raise PreventUpdate
 
     # Definir las configuraciones de zoom y centro del mapa una vez
     map_layout = dict(zoom=5, center={"lat": 4.6837, "lon": -74.0566})
@@ -1343,7 +1151,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                     margin={"r":0,"t":0,"l":0,"b":0},
                     )
         
-        warning = f"No se puede mostrar datos para la totalidad de la red"
+        warning = f"Los datos para la totalidad de la red se muestran en las gráficas de la derecha"
         return fig, warning
     
     start_date = datetime.strptime(start_date, "%Y-%m-%d") # Paso a formato datetime
@@ -1351,19 +1159,25 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
     date_diff = (end_date - start_date).days
     print("Diferencia de fechas: ", date_diff)
     
-    if agg in ["celda","sector","EB"]:
+    # Condicional para acotar el rango de la consulta por agregación geográfica
+    if agg in ["celda","sector"]:
         if date_diff > 3: # Si el rango seleccionado es mayor a 3 días
             start_date = end_date - timedelta(days=2) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
+    
+    elif agg == "EB":
+        if date_diff > 7: # Si el rango seleccionado es mayor a 7 días
+            start_date = end_date - timedelta(days=6) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
 
     elif agg in ["cluster","localidad","municipio"]:
-        if date_diff > 16: # Si el rango seleccionado es mayor a 16 días
-            start_date = end_date - timedelta(days=15) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
+        if date_diff > 21: # Si el rango seleccionado es mayor a 21 días
+            start_date = end_date - timedelta(days=20) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
     
-    else: # Para AM, Departamento y regional
-        if date_diff > 31: # Si el rango seleccionado es mayor a 31 días
-            start_date = end_date - timedelta(days=30) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
+    elif agg in ["AM","deparamento","regional"]: # Para AM, Departamento y regional
+        if date_diff > 120: # Si el rango seleccionado es mayor a 120 días
+            start_date = end_date - timedelta(days=119) # Resto dos días para así tomar el dia seleccionado y los dos anteriores
 
-    end_date = end_date.strftime("%Y-%m-%d") # Paso de datetime a string
+    # Paso de datetime a string
+    end_date = end_date.strftime("%Y-%m-%d")
     start_date = start_date.strftime("%Y-%m-%d")
     
 
@@ -1398,16 +1212,13 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
         graph_column = "L.Traffic.ActiveUser.DL.Avg" # Guardo la columna de filtrado porque con ella es que se grafican colores en el mapa
 
         bh_df = bh_df[[data_column,graph_column]].copy() # Copia del df solo con estas columnas
-        # print("Bh_df:\n", bh_df)
         bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index() # Se promedia por nombre de marcador o polígono
-        # print("total avg:\n", bh_df)
 
         color_scale = [MORADO_CLARO,MAGENTA_OPACO,MAGENTA,MORADO_WOM,MORADO_OSCURO]
         kpi_range = None
 
     elif kpi == "PRB":
         bh_df = bh_df.copy()
-        # print("df pre PRB usage\n", bh_df)
         bh_df["DL_PRB_usage"] = (bh_df["L.ChMeas.PRB.DL.Used.Avg"] / bh_df["L.ChMeas.PRB.DL.Avail"]) * 100 # Cálculo de % ocupación en downlink y guardado en nueva columna
         bh_df["UL_PRB_usage"] = (bh_df["L.ChMeas.PRB.UL.Used.Avg"] / bh_df["L.ChMeas.PRB.UL.Avail"]) * 100 # Cálculo de % ocupación en uplink y guardado en nueva columna
         graph_column = "DL_PRB_usage"
@@ -1418,7 +1229,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
             (0.5, 'yellow'),   # Amarillo para valores medios
             (1, 'red')       # Rojo para valores superior
         ]
-        kpi_range = [0,100]
+        kpi_range = [0,100] # Rango a mostrar en la barra de escala
 
     elif kpi == "Traffic":
         bh_df = bh_df.copy()
@@ -1429,26 +1240,15 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
         # print("total avg trff:\n", bh_df)
 
         color_scale = [MORADO_CLARO,MAGENTA_OPACO,MAGENTA,MORADO_WOM,MORADO_OSCURO]
-        # color_scale = None
         kpi_range = None
 
     elif kpi == "u_exp":
         bh_df = bh_df.copy()
-        # print("df pre u_exp\n", bh_df)
         bh_df["User_Exp"] = ((bh_df["L.Thrp.bits.DL(bit)"]-bh_df["L.Thrp.bits.DL.LastTTI(bit)"]) / (bh_df["L.Thrp.Time.DL.RmvLastTTI(ms)"])) / 1024 # Calculo user experience
         graph_column = "User_Exp"
         bh_df = bh_df.groupby(data_column)[graph_column].mean().reset_index()
-        # print("total avg u_exp:\n", bh_df)
+
         # Definir la escala de color discreta según la definición de la empresa
-        # color_scale = [
-        #     (0, "darkred"), (0.1,"darkred"),   
-        #     (0.1, "red"), (0.25,"red"),
-        #     (0.25, "orange"), (0.33,"orange"),
-        #     (0.33, "yellow"), (0.5,"yellow"),
-        #     (0.5, "green"), (0.999999,"green"),
-        #     (0.999999, "lime"), (1,"lime"),
-        # ]
-        # Definir la escala de color personalizada con valores absolutos
         color_scale = [
             (0, "darkred"), (1, "darkred"),
             (1, "red"), (2.5, "red"),
@@ -1465,7 +1265,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
         print("Hubo un error en la selección del KPI")
         raise PreventUpdate
     
-
+    # Condicional para gráficar la agregación geográfica seleccionada
     if agg == "celda":
         cells = df_geo.drop_duplicates(subset=["dwh_cell_name_wom"]).copy() # Df con nombres únicos de celda
         bh_df[data_column] = bh_df[data_column].str.upper() # Valores a mayusculas
@@ -1506,9 +1306,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                 )
 
     elif agg == "cluster":
-        # print("Clusters:\n",clusters)
         df_merged = clusters.merge(bh_df, how="left", left_on="key", right_on="cluster_name")
-        # print("merge clusters:\n", df_merged)
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    color_continuous_scale=color_scale, range_color=kpi_range, # Definir rango escala de color
@@ -1519,11 +1317,8 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    )
     
     elif agg == "localidad":
-        # print("Localidades:\n",localidades)
-        # localidades.info(verbose=True)
         localidades["Localidad"] = localidades["Localidad"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = localidades.merge(bh_df, how="left", left_on="Localidad", right_on="localidad_dane_code")
-        # print("merge localidaes:\n", df_merged)
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    color_continuous_scale=color_scale, range_color=kpi_range, # Definir rango escala de color
@@ -1535,11 +1330,8 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    )
     
     elif agg == "municipio":
-        # print("Muns:\n",municipios)
-        # municipios.info(verbose=True)
         municipios["MPIO_CCNCT"] = municipios["MPIO_CCNCT"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = municipios.merge(bh_df, how="left", left_on="MPIO_CCNCT", right_on="municipio_dane_code")
-        # print("merge muns:\n", df_merged)
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    color_continuous_scale=color_scale, range_color=kpi_range, # Definir rango escala de color
@@ -1551,7 +1343,6 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    )
     
     elif agg == "AM":
-        # print("bh_df area metro:\n", bh_df)
         df_merged = areas_metro.merge(bh_df, how="left", left_on="AM", right_on="am_name")
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
@@ -1563,11 +1354,8 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    )
         
     elif agg == "departamento":
-        # print("dptos:\n",departamentos)
-        # departamentos.info(verbose=True)
         departamentos["DPTO_CCDGO"] = departamentos["DPTO_CCDGO"].astype(int) # Todas las columnas del df quedaron como string cuando se leyó el GeoJSON, por lo que toca hacer casting para el merge
         df_merged = departamentos.merge(bh_df, how="left", left_on="DPTO_CCDGO", right_on="dpto_dane_code")
-        # print("merge dptos:\n", df_merged)
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    color_continuous_scale=color_scale, range_color=kpi_range, # Definir rango escala de color
@@ -1579,9 +1367,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    )
     
     elif agg == "regional":
-        # print("Regional:\n",regionales)
         df_merged = regionales.merge(bh_df, how="left", left_on="DPTO_REGIONAL", right_on="regional_name")
-        # print("merge regional:\n", df_merged)
         fig = px.choropleth_mapbox(df_merged, geojson=df_merged.geometry, locations=df_merged.index,
                                    color=graph_column,
                                    color_continuous_scale=color_scale, range_color=kpi_range, # Definir rango escala de color
@@ -1591,7 +1377,7 @@ def map_kpi(boton, agg, kpi, start_date, end_date):
                                    custom_data="DPTO_REGIONAL"
                                    )
 
-    
+    # Condicional para definir estilo del gráfico según KPI a mostrar
     if kpi == "BH":
         # Personalizar la barra de colores
         fig.update_layout(

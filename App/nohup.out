@@ -1,0 +1,2121 @@
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'Dashboard_BD'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8050
+ * Running on http://10.40.111.108:8050
+Press CTRL+C to quit
+10.41.169.0 - - [27/May/2024 18:14:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:14:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET / HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.18.184 - - [27/May/2024 18:14:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:28] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.18.184 - - [27/May/2024 18:14:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.184 - - [27/May/2024 18:14:29] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.18.184 - - [27/May/2024 18:14:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:15:31] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.169.0 - - [27/May/2024 18:15:32] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:46] "GET / HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:47] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:47] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:47] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:19:48] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.41.169.0 - - [27/May/2024 18:19:48] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.41.169.0 - - [27/May/2024 18:19:48] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.41.169.0 - - [27/May/2024 18:19:49] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.41.169.0 - - [27/May/2024 18:19:49] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.169.0 - - [27/May/2024 18:20:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:20:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:23:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:23:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:25:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:25:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:25:51] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:25:51] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.169.0 - - [27/May/2024 18:25:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:26:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:26:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:26:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:26:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.0 - - [27/May/2024 18:26:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET / HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:01:58] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:01:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:01:59] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.10 - - [28/May/2024 10:10:32] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:10:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET / HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:54:54] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 10:54:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 10:54:55] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.10 - - [28/May/2024 11:44:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:44:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:44:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:44:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:44:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:44:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:45:13] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:45:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:45:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:45:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:45:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:46:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:46:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:46:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:46:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 11:46:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:02] "GET / HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 13:58:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.17.10 - - [28/May/2024 13:58:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:04] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.10 - - [28/May/2024 13:58:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [28/May/2024 13:58:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET / HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:15] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:16] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:16] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:16] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:16] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:16] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:17] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 13:59:20] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.164.233 - - [28/May/2024 14:00:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:00:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:01:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:02:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:02:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:02:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:02:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:02:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:14] "GET / HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.41.164.233 - - [28/May/2024 14:05:15] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.41.164.233 - - [28/May/2024 14:05:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.233 - - [28/May/2024 14:05:16] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.164.233 - - [28/May/2024 14:05:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET / HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:06:39] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.164.233 - - [28/May/2024 14:07:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:08:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:08:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:14] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:09:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:10:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:10:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:12:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:05] "POST /_dash-update-component HTTP/1.1" 200 -
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  1100102
+selección función graphs:  1100102
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-15
+End date:  2024-05-27
+{'points': [{'curveNumber': 0, 'pointNumber': 4, 'pointIndex': 4, 'location': 4, 'z': 1, 'hovertext': 'East', 'bbox': {'x0': 393.819694765929, 'x1': 393.819694765929, 'y0': 175.24181848598025, 'y1': 175.24181848598025}, 'customdata': ['East']}]}
+Input en función makezooom:  East
+selección función graphs:  East
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-15
+End date:  2024-05-27
+Input en función makezooom:  Total de la red
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-15
+End date:  2024-05-27
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  15599
+selección función graphs:  15599
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-17
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 694, 'pointIndex': 694, 'location': 694, 'z': 1, 'hovertext': 'JENESANO', 'bbox': {'x0': 304.9626181022326, 'x1': 304.9626181022326, 'y0': 220.5591499990004, 'y1': 220.5591499990004}, 'customdata': ['15367']}]}
+Input en función makezooom:  15367
+selección función graphs:  15367
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-17
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  15599
+Input en función makezooom:  25769
+selección función graphs:  25769
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-17
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 16931, 'pointIndex': 16931, 'lon': -74.127158, 'lat': 4.697194, 'cluster.color': 1, 'hovertext': 'BTA EL MUELLE: 1', 'marker.color': 1, 'bbox': {'x0': 269.78882702222234, 'x1': 271.78882702222234, 'y0': 223.38380946449382, 'y1': 225.38380946449382}, 'customdata': ['BTA EL MUELLE: 1']}]}
+Input en función makezooom:  BTA EL MUELLE: 1
+selección función graphs:  BTA EL MUELLE: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-23
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 6, 'pointIndex': 6, 'location': 6, 'z': 1, 'hovertext': 'CASANARE', 'bbox': {'x0': 391.3358519511442, 'x1': 391.3358519511442, 'y0': 186.09982509742733, 'y1': 186.09982509742733}, 'customdata': ['85']}]}
+Input en función makezooom:  85
+selección función graphs:  85
+Geo_Agg:  departamento
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  85
+Geo_Agg:  departamento
+Time agg:  dia
+Start date:  2024-05-16
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  85
+Geo_Agg:  departamento
+Time agg:  semana
+Start date:  2024-05-16
+End date:  2024-05-27T18:14:09.015050
+BH semana agregada
+PRB semana agregada
+uexp semana agregada
+selección función graphs:  85
+Geo_Agg:  departamento
+Time agg:  dia
+Start date:  2024-05-16
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B_AWS_1
+selección función graphs:  SAN SAN GIL B_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-05-16
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  hora
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+gauge value:  36.523109321148375
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  0_B28_24
+Input en función makezooom:  BTA CASA BLANCA K_B28_5
+selección función graphs:  BTA CASA BLANCA K_B28_5
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-04-01
+End date:  2024-04-02
+{'points': [{'curveNumber': 0, 'pointNumber': 23096, 'pointIndex': 23096, 'lon': -74.0431, 'lat': 4.77697, 'hovertext': 'BTA CASA BLANCA H_AWS_3', 'bbox': {'x0': 755.5001057010227, 'x1': 757.5001057010227, 'y0': 161.02401238123576, 'y1': 163.02401238123576}, 'customdata': ['BTA CASA BLANCA H_AWS_3']}]}
+Input en función makezooom:  BTA CASA BLANCA H_AWS_3
+{'points': [{'curveNumber': 0, 'pointNumber': 34959, 'pointIndex': 34959, 'lon': -74.0406, 'lat': 4.77308, 'hovertext': 'BTA CANAIMA_B7_7', 'bbox': {'x0': 518.7542222220809, 'x1': 520.7542222220809, 'y0': 314.9592676367583, 'y1': 316.9592676367583}, 'customdata': ['BTA CANAIMA_B7_7']}]}
+Input en función makezooom:  BTA CANAIMA_B7_7
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  hora
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+gauge value:  36.523109321148375
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  85010
+selección función graphs:  85010
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  BTA CHICO NORTE B_AWS_3
+selección función graphs:  BTA CHICO NORTE B_AWS_3
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 34421, 'pointIndex': 34421, 'lon': -74.036923, 'lat': 4.683093, 'hovertext': 'BTA ESCUELA DE INFANTERIA B_B7_8', 'bbox': {'x0': 622.0239947944217, 'x1': 624.0239947944217, 'y0': 115.21886600141173, 'y1': 117.21886600141173}, 'customdata': ['BTA ESCUELA DE INFANTERIA B_B7_8']}]}
+Input en función makezooom:  BTA ESCUELA DE INFANTERIA B_B7_8
+{'points': [{'curveNumber': 0, 'pointNumber': 33024, 'pointIndex': 33024, 'lon': -74.035594, 'lat': 4.686407, 'hovertext': 'BTA SANTA ANA OCCIDENTAL_B28_6', 'bbox': {'x0': 354.4679445333834, 'x1': 356.4679445333834, 'y0': 146.51935260278208, 'y1': 148.51935260278208}, 'customdata': ['BTA SANTA ANA OCCIDENTAL_B28_6']}]}
+Input en función makezooom:  BTA SANTA ANA OCCIDENTAL_B28_6
+selección función graphs:  BTA SANTA ANA OCCIDENTAL_B28_6
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 30635, 'pointIndex': 30635, 'lon': -74.055004, 'lat': 4.697303, 'hovertext': 'BTA SAN PATRICIO C_B7_7', 'bbox': {'x0': 219.907476650344, 'x1': 221.907476650344, 'y0': 17.197275797879254, 'y1': 19.197275797879254}, 'customdata': ['BTA SAN PATRICIO C_B7_7']}]}
+Input en función makezooom:  BTA SAN PATRICIO C_B7_7
+selección función graphs:  BTA SAN PATRICIO C_B7_7
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 19898, 'pointIndex': 19898, 'lon': -74.041445, 'lat': 4.702097, 'hovertext': 'BTA STORE UNICENTRO_AWS_1', 'bbox': {'x0': 639.4475996441312, 'x1': 641.4475996441312, 'y0': 111.91485252521656, 'y1': 113.91485252521656}, 'customdata': ['BTA STORE UNICENTRO_AWS_1']}]}
+Input en función makezooom:  BTA STORE UNICENTRO_AWS_1
+selección función graphs:  BTA STORE UNICENTRO_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+10.100.16.253 - - [28/May/2024 14:13:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:13:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:13] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:14] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:14:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:15:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:15:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:15:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:17:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:23:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:24:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:24:39] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.253 - - [28/May/2024 14:24:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:24:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:25:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:26:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:26:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:27:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:27:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:27:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:27:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:28:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:28:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:28:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:29:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:30:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:30:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:30:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:31:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 14:31:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET / HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.253 - - [28/May/2024 15:08:01] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.253 - - [28/May/2024 15:08:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:02] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.253 - - [28/May/2024 15:08:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:32] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:08:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:09:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:10:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:10:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:11:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:12:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:12:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:12:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:12:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:12:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:13:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:13:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:14:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:14:51] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:15:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:15:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:15:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:15:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:16:32] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:17:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:18:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:18:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.253 - - [28/May/2024 15:18:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:36] "GET / HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:37] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:39] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:39] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:39] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:40] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:32:44] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.171.211 - - [30/May/2024 10:33:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:33:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:33:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:33:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:34:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:35:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.171.211 - - [30/May/2024 10:35:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET / HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:07] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:10] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.10 - - [30/May/2024 15:12:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:12:52] "POST /_dash-update-component HTTP/1.1" 200 -
+Input en función makezooom:  Northwest
+selección función graphs:  Northwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  Southwest
+selección función graphs:  Southwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Southwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Southwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  Northwest
+selección función graphs:  Northwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  Center
+selección función graphs:  Center
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Center
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Center
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Center
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Center
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  Total de la red
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  semana
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+BH semana agregada
+PRB semana agregada
+uexp semana agregada
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  mes
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+BH semana agregada
+PRB semana agregada
+uexp semana agregada
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B_AWS_1
+selección función graphs:  SAN SAN GIL B_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-05-01
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B: 1
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-01
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B: 2
+selección función graphs:  SAN SAN GIL B: 2
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-01
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B: 3
+selección función graphs:  SAN SAN GIL B: 3
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-01
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B: 1
+Input en función makezooom:  BTA 20 DE JULIO: 1
+Input en función makezooom:  BTA DANUBIO AZUL: 4
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B
+selección función graphs:  SAN SAN GIL B
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 4058, 'pointIndex': 4058, 'lon': -73.1341, 'lat': 6.55184, 'hovertext': 'SAN STORE CC EL PUENTE', 'bbox': {'x0': 269.90611555523344, 'x1': 271.90611555523344, 'y0': 94.52982228243792, 'y1': 96.52982228243792}, 'customdata': ['SAN STORE CC EL PUENTE']}]}
+Input en función makezooom:  SAN STORE CC EL PUENTE
+selección función graphs:  SAN STORE CC EL PUENTE
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 2461, 'pointIndex': 2461, 'lon': -73.1287, 'lat': 6.55476, 'hovertext': 'SAN SAN GIL', 'bbox': {'x0': 449.32911999949704, 'x1': 451.32911999949704, 'y0': 155.51157308931704, 'y1': 157.51157308931704}, 'customdata': ['SAN SAN GIL']}]}
+Input en función makezooom:  SAN SAN GIL
+selección función graphs:  SAN SAN GIL
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+{'points': [{'curveNumber': 0, 'pointNumber': 659, 'pointIndex': 659, 'lon': -73.1318, 'lat': 6.54632, 'hovertext': 'SAN SAN GIL B', 'bbox': {'x0': 251.2647644442099, 'x1': 253.2647644442099, 'y0': 421.95860462824504, 'y1': 423.95860462824504}, 'customdata': ['SAN SAN GIL B']}]}
+Input en función makezooom:  SAN SAN GIL B
+selección función graphs:  SAN SAN GIL B
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  SAN SAN GIL B: 1
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  64.23141354166667
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  64.23141354166667
+Input en función makezooom:  SAN SAN GIL B_AWS_1
+selección función graphs:  SAN SAN GIL B_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  57.97659583333333
+Input en función makezooom:  SAN SAN GIL B_B28_4
+selección función graphs:  SAN SAN GIL B_B28_4
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  68.22104166666666
+Input en función makezooom:  SAN SAN GIL B_B7_7
+selección función graphs:  SAN SAN GIL B_B7_7
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  66.496603125
+Input en función makezooom:  SAN SAN GIL B_B28_4
+selección función graphs:  SAN SAN GIL B_B28_4
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  68.22104166666666
+Input en función makezooom:  SAN SAN GIL B_AWS_1
+selección función graphs:  SAN SAN GIL B_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  57.97659583333333
+Input en función makezooom:  SAN SAN GIL B: 1
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  64.23141354166667
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+gauge value:  64.23141354166667
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  SAN SAN GIL B: 1
+Geo_Agg:  sector
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-05-27T18:14:09.015050
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  5001
+selección función graphs:  5001
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-16
+End date:  2024-05-29
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-04-27T18:14:09.015059
+End date:  2024-05-27T18:14:09.015050
+Input en función makezooom:  BTA EL RETAZO_B7_9
+selección función graphs:  BTA EL RETAZO_B7_9
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-03-01
+End date:  2024-05-27T18:14:09.015050
+10.100.17.10 - - [30/May/2024 15:13:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:13:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 15:19:32] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET / HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:14:47] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.10 - - [30/May/2024 16:17:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:17:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:17] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.10 - - [30/May/2024 16:18:56] "POST /_dash-update-component HTTP/1.1" 200 -
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'Dashboard_BD'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8050
+ * Running on http://10.40.111.108:8050
+Press CTRL+C to quit
+10.40.174.231 - - [20/Jun/2024 10:51:15] "GET / HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:51:15] "GET /_dash-layout HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:51:15] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET / HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-layout HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:03] "POST /_dash-update-component HTTP/1.1" 204 -
+10.40.174.231 - - [20/Jun/2024 10:52:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.40.174.231 - - [20/Jun/2024 10:52:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET / HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:22] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:23] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:23] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:23] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:23] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:23] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:24] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:24] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:24] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:25] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:28] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.169.57 - - [20/Jun/2024 11:40:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:40:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 11:41:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:33] "GET / HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:34] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.41.169.57 - - [20/Jun/2024 12:10:35] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.169.57 - - [20/Jun/2024 12:10:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:10:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:11:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:12:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 12:12:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 13:51:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 13:51:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 13:51:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 13:51:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.169.57 - - [20/Jun/2024 13:51:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET / HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:27] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:28] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET / HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:33] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.41 - - [20/Jun/2024 14:58:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:58:57] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 14:59:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:00:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:01:57] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:03:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:03:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:03:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:03:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:03:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET / HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:58] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:19:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:20:00] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.18.71 - - [20/Jun/2024 15:20:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:20:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:20:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.18.71 - - [20/Jun/2024 15:20:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:27:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET / HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:28:59] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.17.41 - - [20/Jun/2024 15:31:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:31:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:31:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:31:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:32:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:32:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:32:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:32:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:33:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:33:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:33:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:33:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:34:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:34:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:36:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:36:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:36:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:37:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:37:53] "POST /_dash-update-component HTTP/1.1" 200 -
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Error al conectar con la base de datos:  invalid input syntax for type integer: "Total de la red"
+LINE 3:                     WHERE "localidad_dane_code" = 'Total de ...
+                                                          ^
+
+{'points': [{'curveNumber': 0, 'pointNumber': 15, 'pointIndex': 15, 'location': 15, 'z': 1, 'hovertext': 'Engativa', 'bbox': {'x0': 584.2249385743125, 'x1': 584.2249385743125, 'y0': 223.3736519773139, 'y1': 223.3736519773139}, 'customdata': ['1100110']}]}
+Input en función makezooom:  1100110
+{'points': [{'curveNumber': 0, 'pointNumber': 11, 'pointIndex': 11, 'location': 11, 'z': 1, 'hovertext': 'Suba', 'bbox': {'x0': 676.2550297530493, 'x1': 676.2550297530493, 'y0': 0, 'y1': 0}, 'customdata': ['1100111']}]}
+Input en función makezooom:  1100111
+{'points': [{'curveNumber': 0, 'pointNumber': 11, 'pointIndex': 11, 'location': 11, 'z': 1, 'hovertext': 'Suba', 'bbox': {'x0': 506.1388948167695, 'x1': 506.1388948167695, 'y0': 0, 'y1': 0}, 'customdata': ['1100111']}]}
+Input en función makezooom:  1100111
+selección función graphs:  1100111
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  departamento
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Error al conectar con la base de datos:  invalid input syntax for type integer: "Total de la red"
+LINE 3:                     WHERE "dpto_dane_code" = 'Total de la re...
+                                                     ^
+
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  Coast
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+{'points': [{'curveNumber': 0, 'pointNumber': 0, 'pointIndex': 0, 'location': 0, 'z': 3.341723996963737, 'hovertext': 'Coast', 'bbox': {'x0': 282.4763256964336, 'x1': 282.4763256964336, 'y0': 5.027007745283622, 'y1': 5.027007745283622}, 'customdata': ['Coast']}]}
+Input en función makezooom:  Coast
+{'points': [{'curveNumber': 0, 'pointNumber': 0, 'pointIndex': 0, 'location': 0, 'z': 3.341723996963737, 'hovertext': 'Coast', 'bbox': {'x0': 349.90089967445226, 'x1': 349.90089967445226, 'y0': 304.55086801674634, 'y1': 304.55086801674634}, 'customdata': ['Coast']}]}
+Input en función makezooom:  Coast
+{'points': [{'curveNumber': 0, 'pointNumber': 0, 'pointIndex': 0, 'location': 0, 'z': 3.341723996963737, 'hovertext': 'Coast', 'bbox': {'x0': 361.4680037994545, 'x1': 361.4680037994545, 'y0': 292.83445217437213, 'y1': 292.83445217437213}, 'customdata': ['Coast']}]}
+Input en función makezooom:  Coast
+{'points': [{'curveNumber': 0, 'pointNumber': 1, 'pointIndex': 1, 'location': 1, 'z': 4.421541934054046, 'hovertext': 'Northwest', 'bbox': {'x0': 128.80421073524212, 'x1': 128.80421073524212, 'y0': 244.94177534689507, 'y1': 244.94177534689507}, 'customdata': ['Northwest']}]}
+Input en función makezooom:  Northwest
+{'points': [{'curveNumber': 0, 'pointNumber': 7, 'pointIndex': 7, 'location': 7, 'z': 4.417458138190395, 'hovertext': 'Centro', 'bbox': {'x0': 408.4938798344287, 'x1': 408.4938798344287, 'y0': 386.03607556883384, 'y1': 386.03607556883384}, 'customdata': ['Centro']}]}
+Input en función makezooom:  Centro
+{'points': [{'curveNumber': 0, 'pointNumber': 7, 'pointIndex': 7, 'location': 7, 'z': 4.417458138190395, 'hovertext': 'Centro', 'bbox': {'x0': 271.4896487862382, 'x1': 271.4896487862382, 'y0': 263.8692846596324, 'y1': 263.8692846596324}, 'customdata': ['Centro']}]}
+Input en función makezooom:  Centro
+{'points': [{'curveNumber': 0, 'pointNumber': 5, 'pointIndex': 5, 'location': 5, 'z': 3.9150993898234, 'hovertext': 'Center', 'bbox': {'x0': 492.88068356841666, 'x1': 492.88068356841666, 'y0': 413.2473050972102, 'y1': 413.2473050972102}, 'customdata': ['Center']}]}
+Input en función makezooom:  Center
+Input en función makezooom:  Coast
+Input en función makezooom:  Northwest
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  Medellin AM
+selección función graphs:  Medellin AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  Coast
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  11001
+selección función graphs:  11001
+Geo_Agg:  municipio
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  36.79101439252325
+Input en función makezooom:  11001
+selección función graphs:  11001
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  1100101
+selección función graphs:  1100101
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  1100101
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  1100113
+selección función graphs:  1100113
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  50006
+selección función graphs:  50006
+Geo_Agg:  municipio
+Time agg:  hora
+Start date:  2024-05-28
+End date:  2024-06-19
+gauge value:  48.63961168090062
+Input en función makezooom:  Coast
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  40.57746718927418
+Input en función makezooom:  Barranquilla AM
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  39.850244033606884
+Input en función makezooom:  Cartagena AM
+selección función graphs:  Cartagena AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  38.6680635331883
+Input en función makezooom:  Medellin AM
+selección función graphs:  Medellin AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  30.38692461891243
+selección función graphs:  Medellin AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  Barranquilla AM
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  hora
+10.100.17.41 - - [20/Jun/2024 15:38:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:38:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:39:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:40:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:40:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:41:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:42:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:42:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:42:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.17.41 - - [20/Jun/2024 15:42:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:36] "GET / HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:16:37] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:16:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:16:38] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET / HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:18:53] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.64 - - [21/Jun/2024 10:19:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:19:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:19:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:19:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:19:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET / HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:18] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.64 - - [21/Jun/2024 10:25:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:25:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:26:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:26:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:26:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:26:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:28:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:28:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:28:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:28:59] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:29:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:29:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:29:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:30:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:30:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:30:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.64 - - [21/Jun/2024 10:30:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET / HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.43 - - [21/Jun/2024 12:26:30] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.43 - - [21/Jun/2024 12:26:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:31] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.43 - - [21/Jun/2024 12:26:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:26:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:27:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:27:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:28:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:31:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:31:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:31:17] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:31:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:31:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:34:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:35:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:35:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:04] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:04] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:36:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:14] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:37:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:38:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:38:13] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:38:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:39:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.43 - - [21/Jun/2024 12:39:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:56] code 400, message Bad request syntax ('\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03\x9d¡w')
+10.100.15.32 - - [21/Jun/2024 15:18:56] "\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03\x9d¡w" HTTPStatus.BAD_REQUEST -
+10.100.15.32 - - [21/Jun/2024 15:18:56] code 400, message Bad request version ('\x00\x02\x01\x00\x00\x1b\x00\x03\x02\x00\x02\x00')
+10.100.15.32 - - [21/Jun/2024 15:18:56] "\x16\x03\x01\x06à\x01\x00\x06Ü\x03\x03\x84aÜwï\x8c7¾@\x04g>]µÍ,Ð\x1a@Ä£«\x03­¨}\x0c\x14¯©O\x99 ¹\x9e8{>\x90Ál\x86Z\x8eà0\x1a\x8aHä\x10a¶$`\x04\x1dgirÞ?úÕ×\x00 úú\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06s\x9a\x9a\x00\x00\x00\x0b\x00\x02\x01\x00\x00\x1b\x00\x03\x02\x00\x02\x00" HTTPStatus.BAD_REQUEST -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET / HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:57] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:18:59] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.15.32 - - [21/Jun/2024 15:44:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:45] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.15.32 - - [21/Jun/2024 15:45:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:45:54] "POST /_dash-update-component HTTP/1.1" 200 -
+Start date:  2024-05-20
+End date:  2024-06-19
+gauge value:  39.850244033606884
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-24
+End date:  2024-06-19
+gauge value:  39.713956604229075
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-24
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  Coast
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-24
+End date:  2024-06-19
+Input en función makezooom:  Bucaramanga AM
+selección función graphs:  Bucaramanga AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-24
+End date:  2024-06-19
+selección función graphs:  Bucaramanga AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-24
+End date:  2024-06-19
+gauge value:  32.138816907527506
+selección función graphs:  Bucaramanga AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-24
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+{'points': [{'curveNumber': 0, 'pointNumber': 181, 'pointIndex': 181, 'lon': -75.35472, 'lat': 9.93417, 'cluster.color': 84.72133333333333, 'hovertext': 'JBOL NUEVA FLORIDA', 'marker.color': 84.72133333333333, 'bbox': {'x0': 224.11817502916963, 'x1': 226.11817502916963, 'y0': 345.8737866885574, 'y1': 347.8737866885574}, 'customdata': ['JBOL NUEVA FLORIDA']}]}
+Input en función makezooom:  JBOL NUEVA FLORIDA
+selección función graphs:  JBOL NUEVA FLORIDA
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+{'points': [{'curveNumber': 0, 'pointNumber': 3310, 'pointIndex': 3310, 'lon': -75.5865, 'lat': 8.41225, 'cluster.color': 93.99283333333334, 'hovertext': 'COR PLANETA RICA', 'marker.color': 93.99283333333334, 'bbox': {'x0': 390.1614451542607, 'x1': 392.1614451542607, 'y0': 215.91038512335882, 'y1': 217.91038512335882}, 'customdata': ['COR PLANETA RICA']}]}
+Input en función makezooom:  COR PLANETA RICA
+selección función graphs:  COR PLANETA RICA
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  COR PLANETA RICA
+Geo_Agg:  departamento
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-20
+Error al conectar con la base de datos:  invalid input syntax for type integer: "COR PLANETA RICA"
+LINE 3:                     WHERE "dpto_dane_code" = 'COR PLANETA RI...
+                                                     ^
+
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  Coast
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-14
+End date:  2024-06-21
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  hora
+Start date:  2024-06-14
+End date:  2024-06-21
+gauge value:  40.7745331595437
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  hora
+Start date:  2024-06-07
+End date:  2024-06-21
+gauge value:  40.8542757900121
+Input en función makezooom:  Medellin AM
+selección función graphs:  Medellin AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-06-07
+End date:  2024-06-21
+gauge value:  30.35811111643207
+selección función graphs:  Medellin AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-19
+End date:  2024-06-21
+gauge value:  30.41037380064144
+Input en función makezooom:  Cartagena AM
+selección función graphs:  Cartagena AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-19
+End date:  2024-06-21
+gauge value:  38.726802440758036
+Input en función makezooom:  Barranquilla AM
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  hora
+Start date:  2024-05-19
+End date:  2024-06-21
+gauge value:  39.860986095105055
+selección función graphs:  Barranquilla AM
+Geo_Agg:  AM
+Time agg:  dia
+Start date:  2024-05-19
+End date:  2024-06-21
+Input en función makezooom:  85010
+selección función graphs:  85010
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-19
+End date:  2024-06-21
+{'points': [{'curveNumber': 0, 'pointNumber': 4610, 'pointIndex': 4610, 'lon': -72.5488, 'lat': 5.16989, 'hovertext': 'CAS AGUAZUL C', 'bbox': {'x0': 389.35357349007216, 'x1': 391.35357349007216, 'y0': 272.7080503013951, 'y1': 274.7080503013951}, 'customdata': ['CAS AGUAZUL C']}]}
+Input en función makezooom:  CAS AGUAZUL C
+{'points': [{'curveNumber': 0, 'pointNumber': 5096, 'pointIndex': 5096, 'lon': -72.3784, 'lat': 5.33936, 'hovertext': 'YOP MARIA MILENA', 'bbox': {'x0': 445.6818802276364, 'x1': 447.6818802276364, 'y0': 235.0416337023841, 'y1': 237.0416337023841}, 'customdata': ['YOP MARIA MILENA']}]}
+Input en función makezooom:  YOP MARIA MILENA
+selección función graphs:  YOP MARIA MILENA
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-05-19
+End date:  2024-06-21
+Input en función makezooom:  85001
+selección función graphs:  85001
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-19
+End date:  2024-06-21
+Input en función makezooom:  Coast
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-05-19
+End date:  2024-06-21
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  hora
+Start date:  2024-05-19
+End date:  2024-06-21
+gauge value:  40.6105602184233
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  hora
+Start date:  2024-06-16
+End date:  2024-06-21
+gauge value:  40.49190952927849
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+{'points': [{'curveNumber': 0, 'pointNumber': 1, 'pointIndex': 1, 'location': 1, 'z': 1, 'hovertext': 'Northwest', 'bbox': {'x0': 338.3566882025292, 'x1': 338.3566882025292, 'y0': 145.8021365975685, 'y1': 145.8021365975685}, 'customdata': ['Northwest']}]}
+Input en función makezooom:  Northwest
+selección función graphs:  Northwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  None
+{'points': [{'curveNumber': 0, 'pointNumber': 2, 'pointIndex': 2, 'location': 2, 'z': 51.06773675947118, 'hovertext': 'Southwest', 'bbox': {'x0': 287.3753037313572, 'x1': 287.3753037313572, 'y0': 344.42582331774685, 'y1': 344.42582331774685}, 'customdata': ['Southwest']}]}
+Input en función makezooom:  Southwest
+10.100.15.32 - - [21/Jun/2024 15:46:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:14] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:19] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:27] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:46:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:47:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:47:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:50:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:50:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:51:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:51:46] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:52:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:52:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:52:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:53:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:53:38] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.15.32 - - [21/Jun/2024 15:53:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:53:48] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:53:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:55:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:56:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:56:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:56:35] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:56:38] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 15:56:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:00:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:00:45] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:03:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:04:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:04:15] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:04:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:04:47] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:05:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:05:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:06:14] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:06:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:09:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:09:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:11:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:14:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:14:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:16:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.15.32 - - [21/Jun/2024 16:18:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET / HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:19] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:20] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:21] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:24] "POST /_dash-update-component HTTP/1.1" 204 -
+10.41.166.97 - - [25/Jun/2024 14:27:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:51] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:27:57] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:08] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:49] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:28:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:29:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:29:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 14:29:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:02:25] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:02:29] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:02:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:02:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:02:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:10:30] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:10:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:10:57] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:11:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:17:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:17:50] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:17:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:18:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:18:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:18:31] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:18:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:18:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.166.97 - - [25/Jun/2024 15:19:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.221 - - [25/Jun/2024 17:47:18] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.221 - - [25/Jun/2024 17:47:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.164.221 - - [25/Jun/2024 17:47:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:57] "GET / HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:58:58] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.184 - - [26/Jun/2024 08:59:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:59:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:59:17] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 08:59:39] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:09:20] "POST /_dash-update-component HTTP/1.1" 200 -
+{'points': [{'curveNumber': 0, 'pointNumber': 0, 'pointIndex': 0, 'location': 0, 'z': 59.5704804558602, 'hovertext': 'Coast', 'bbox': {'x0': 406.3904911466633, 'x1': 406.3904911466633, 'y0': 180.6470634012966, 'y1': 180.6470634012966}, 'customdata': ['Coast']}]}
+Input en función makezooom:  Coast
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Coast
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+{'points': [{'curveNumber': 0, 'pointNumber': 5, 'pointIndex': 5, 'location': 5, 'z': 54.22789970693557, 'hovertext': 'Center', 'bbox': {'x0': 503.867796504581, 'x1': 503.867796504581, 'y0': 320.61930111612156, 'y1': 320.61930111612156}, 'customdata': ['Center']}]}
+Input en función makezooom:  Center
+selección función graphs:  Center
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+{'points': [{'curveNumber': 0, 'pointNumber': 2, 'pointIndex': 2, 'location': 2, 'z': 51.06773675947118, 'hovertext': 'Southwest', 'bbox': {'x0': 203.56042948491458, 'x1': 203.56042948491458, 'y0': 435.4428945207761, 'y1': 435.4428945207761}, 'customdata': ['Southwest']}]}
+Input en función makezooom:  Southwest
+selección función graphs:  Southwest
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+{'points': [{'curveNumber': 0, 'pointNumber': 3, 'pointIndex': 3, 'location': 3, 'z': 53.33196749691675, 'hovertext': 'East', 'bbox': {'x0': 351.2138265526681, 'x1': 351.2138265526681, 'y0': 242.5149937931945, 'y1': 242.5149937931945}, 'customdata': ['East']}]}
+Input en función makezooom:  East
+{'points': [{'curveNumber': 0, 'pointNumber': 3, 'pointIndex': 3, 'location': 3, 'z': 53.33196749691675, 'hovertext': 'East', 'bbox': {'x0': 360.5392762564509, 'x1': 360.5392762564509, 'y0': 211.28332917027453, 'y1': 211.28332917027453}, 'customdata': ['East']}]}
+Input en función makezooom:  East
+selección función graphs:  East
+Geo_Agg:  regional
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  800102
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  hora
+Start date:  2024-06-20
+End date:  2024-06-20
+gauge value:  49.93462089371982
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+Input en función makezooom:  None
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  800102
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  hora
+Start date:  2024-06-01
+End date:  2024-06-20
+gauge value:  50.21774949060182
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  mes
+Start date:  2024-06-01
+End date:  2024-06-20
+BH semana agregada
+PRB semana agregada
+uexp semana agregada
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  semana
+Start date:  2024-06-01
+End date:  2024-06-20
+BH semana agregada
+PRB semana agregada
+uexp semana agregada
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  hora
+Start date:  2024-06-01
+End date:  2024-06-20
+gauge value:  50.21774949060182
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  800102
+Geo_Agg:  localidad
+Time agg:  dia
+Start date:  2024-06-01
+End date:  2024-06-20
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  25658
+selección función graphs:  25658
+Geo_Agg:  municipio
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+{'points': [{'curveNumber': 0, 'pointNumber': 1704, 'pointIndex': 1704, 'lon': -74.3037, 'lat': 4.94493, 'cluster.color': None, 'hovertext': 'CUN LA CUMBRE', 'marker.color': None, 'bbox': {'x0': 192.9308625653938, 'x1': 194.9308625653938, 'y0': 344.69316552480063, 'y1': 346.69316552480063}, 'customdata': ['CUN LA CUMBRE']}]}
+Input en función makezooom:  CUN LA CUMBRE
+selección función graphs:  CUN LA CUMBRE
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+{'points': [{'curveNumber': 0, 'pointNumber': 4899, 'pointIndex': 4899, 'lon': -74.3518, 'lat': 5.00489, 'cluster.color': 77.39767777777777, 'hovertext': 'CUN UCRANIA', 'marker.color': 77.39767777777777, 'bbox': {'x0': 33.810707929840795, 'x1': 35.810707929840795, 'y0': 66.83043341601336, 'y1': 68.83043341601336}, 'customdata': ['CUN UCRANIA']}]}
+Input en función makezooom:  CUN UCRANIA
+selección función graphs:  CUN UCRANIA
+Geo_Agg:  EB
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  CUN UCRANIA
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+Input en función makezooom:  CUN UCRANIA_AWS_1
+selección función graphs:  CUN UCRANIA_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+selección función graphs:  CUN UCRANIA_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-06-09
+End date:  2024-06-19
+gauge value:  11.115153787878787
+{'points': [{'curveNumber': 0, 'pointNumber': 30265, 'pointIndex': 30265, 'lon': -74.6272, 'lat': 8.54231, 'cluster.color': 14.594426958999998, 'hovertext': 'SUC MAJAGUAL_AWS_1', 'marker.color': 14.594426958999998, 'bbox': {'x0': 362.0207835197394, 'x1': 364.0207835197394, 'y0': 285.2516015396957, 'y1': 287.2516015396957}, 'customdata': ['SUC MAJAGUAL_AWS_1']}]}
+Input en función makezooom:  SUC MAJAGUAL_AWS_1
+selección función graphs:  SUC MAJAGUAL_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-06-09
+End date:  2024-06-19
+Consulta para mostrar KPI en el mapa exitosa
+Se ha creado el dataframe de la consulta para mostrar el KPI
+selección función graphs:  SUC MAJAGUAL_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-06-09
+End date:  2024-06-19
+gauge value:  69.89054772727272
+Input en función makezooom:  AND AEROPUERTO_AWS_1
+selección función graphs:  AND AEROPUERTO_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+Start date:  2024-03-19
+End date:  2024-03-28
+gauge value:  10.060898333333334
+selección función graphs:  AND AEROPUERTO_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-03-19
+End date:  2024-03-28
+selección función graphs:  Total de la red
+Geo_Agg:  total
+Time agg:  dia
+Start date:  2024-05-20
+End date:  2024-06-19
+Input en función makezooom:  AND AEROPUERTO_AWS_1
+selección función graphs:  AND AEROPUERTO_AWS_1
+Geo_Agg:  celda
+Time agg:  dia
+Start date:  2024-03-20
+End date:  2024-03-27
+selección función graphs:  AND AEROPUERTO_AWS_1
+Geo_Agg:  celda
+Time agg:  hora
+10.100.16.184 - - [26/Jun/2024 09:09:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:09:36] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:14:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:14:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:14:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:14:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:21:33] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:26:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:51:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:51:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:51:55] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 09:52:00] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:38:16] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:38:22] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:52:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:52:06] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:52:12] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:53:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 10:53:42] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 11:11:28] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 11:11:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.184 - - [26/Jun/2024 11:12:01] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET / HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:53] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:54] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:55] "GET /_dash-layout HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:55] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "POST /_dash-update-component HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:56] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.41.173.68 - - [27/Jun/2024 11:26:58] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET / HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 304 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 304 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 304 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 304 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:37] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.13.16 - - [28/Jun/2024 11:18:43] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:18:44] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:19:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:19:54] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:20:20] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:26:23] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:27:24] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.13.16 - - [28/Jun/2024 11:28:07] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET / HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:02] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:03] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:03] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.61 - - [28/Jun/2024 15:16:05] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:10] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:16:52] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.61 - - [28/Jun/2024 15:18:13] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:32] "GET / HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:33] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:34] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:34] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:34] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.222 - - [03/Jul/2024 11:44:40] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:41] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.222 - - [03/Jul/2024 11:44:53] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET / HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:09] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:10] "POST /_dash-update-component HTTP/1.1" 204 -
+10.100.16.180 - - [04/Jul/2024 10:02:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.180 - - [04/Jul/2024 10:02:26] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET / HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/deps/polyfill@7.v2_15_0m1716845014.12.1.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/deps/react@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/deps/react-dom@16.v2_15_0m1716845014.14.0.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/deps/prop-types@15.v2_15_0m1716845014.8.1.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash_leaflet/dash_leaflet.v1_0_15m1716844348.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v1_5_0m1716845015.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash_daq/dash_daq.v0_5_0m1716844395.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_15_0m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dcc/dash_core_components.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_13_0m1716845014.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/html/dash_html_components.v2_0_16m1716845014.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dash_table/bundle.v5_2_9m1716845014.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-layout HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-dependencies HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_favicon.ico?v=2.15.0 HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dcc/async-datepicker.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:11] "POST /_dash-update-component HTTP/1.1" 200 -
+10.100.16.247 - - [09/Jul/2024 15:33:12] "POST /_dash-update-component HTTP/1.1" 204 -

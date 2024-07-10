@@ -160,5 +160,4 @@ cython_debug/
 #.idea/
 
 # Archivos y/o carpetas especificas
-App/DBcredentials.py
 test_venv/

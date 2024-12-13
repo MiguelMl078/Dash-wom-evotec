@@ -245,7 +245,7 @@ def generar_popup(nodo, color, city, tp, latitud, longitud, id=None, carrier=Non
 def obtener_trafico_init():
     today = datetime.today()
     date_end = today - timedelta(days=0)
-    date_start = date_end - timedelta(days=8)
+    date_start = date_end - timedelta(days=16)
     date_start = str(date_start.strftime("%Y-%m-%d")) + ' 00:00:00'
     date_end = str(date_end.strftime("%Y-%m-%d")) + ' 23:00:00'
 
@@ -2677,7 +2677,7 @@ def register_tx_callbacks(app):
         if state_init == False:
             today = datetime.today()
             date_end = today - timedelta(days=0)
-            date_start = date_end - timedelta(days=15)
+            date_start = date_end - timedelta(days=16)
             # Actualizar las últimas fechas procesadas
             last_processed_dates['start_date'] = date_start.strftime("%Y-%m-%d")
             last_processed_dates['end_date'] = date_end.strftime("%Y-%m-%d")

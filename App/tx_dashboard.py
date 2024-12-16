@@ -2384,7 +2384,7 @@ def register_tx_callbacks(app):
     def update_date_range(_):
         today = datetime.today()
         end_date = today - timedelta(days=0)
-        start_date = end_date - timedelta(days=16)
+        start_date = end_date - timedelta(days=7)
         
         return start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")
 
